@@ -1,0 +1,550 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>손동작으로 고양이 쓰다듬기 — 바이브 코딩 워크샵 | 모두의연구소</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@latest/dist/web/static/pretendard.min.css">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:100%;height:100%;overflow:hidden;font-family:'Pretendard',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#030712;-webkit-font-smoothing:antialiased}
+
+/* ── Navigator ── */
+.nav{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;justify-content:center;gap:3px;padding:10px 40px;opacity:0.15;transition:opacity .4s}
+.nav:hover{opacity:0.85}
+.nav-dot{width:28px;height:3px;background:rgba(255,255,255,.25);border-radius:2px;border:none;cursor:pointer;transition:all .25s;flex-shrink:0}
+.nav-dot.active{background:#F7585C;width:36px}
+.nav-dot:hover{background:rgba(247,88,92,.6)}
+body.light-slide .nav-dot{background:rgba(0,0,0,.12)}
+body.light-slide .nav-dot.active{background:#F7585C}
+body.light-slide .nav-dot:hover{background:rgba(247,88,92,.5)}
+
+/* ── Slide Number ── */
+.slide-num{position:fixed;bottom:24px;right:36px;font-size:.75rem;color:rgba(255,255,255,.15);z-index:100;font-variant-numeric:tabular-nums;letter-spacing:1px;transition:color .5s}
+body.light-slide .slide-num{color:rgba(0,0,0,.12)}
+
+/* ── Deck & Slides ── */
+.deck{width:100%;height:100%;position:relative}
+.slide{position:absolute;inset:0;display:flex;flex-direction:column;padding:72px 96px 56px;opacity:0;transition:opacity .45s ease;pointer-events:none;overflow:hidden}
+.slide.active{opacity:1;pointer-events:auto}
+
+/* ── Slide Themes ── */
+.s-white{background:#fff;color:#030712}
+.s-light{background:#F4F6F8;color:#030712}
+.s-dark{background:#030712;color:#fff}
+.s-accent{background:#F7585C;color:#fff}
+.s-coral{background:#FFF2F2;color:#030712}
+.s-gradient{background:linear-gradient(135deg,#030712 0%,#1a1f2e 100%);color:#fff}
+
+/* ── Typography ── */
+.s-label{font-size:.78rem;font-weight:700;letter-spacing:2.5px;text-transform:uppercase;color:#F7585C;margin-bottom:14px}
+.s-dark .s-label,.s-gradient .s-label,.s-accent .s-label{color:rgba(255,255,255,.45)}
+
+.s-title{font-size:2.6rem;font-weight:700;line-height:1.35;margin-bottom:36px;max-width:80%;word-break:keep-all}
+
+.s-body{flex:1;display:flex;flex-direction:column;justify-content:flex-start}
+
+.t-main{font-size:1.45rem;line-height:1.75;color:#2E3339;max-width:75%;word-break:keep-all}
+.s-dark .t-main,.s-gradient .t-main{color:rgba(255,255,255,.82)}
+.s-accent .t-main{color:rgba(255,255,255,.92)}
+
+.t-sub{font-size:1.05rem;line-height:1.65;color:#5F656C;margin-top:14px;max-width:70%;word-break:keep-all}
+.s-dark .t-sub,.s-gradient .t-sub{color:rgba(255,255,255,.4)}
+.s-accent .t-sub{color:rgba(255,255,255,.6)}
+
+.t-quote{font-size:1.5rem;line-height:1.8;border-left:4px solid #F7585C;padding-left:24px;margin:16px 0;max-width:72%;word-break:keep-all}
+.s-dark .t-quote{border-left-color:rgba(255,255,255,.2)}
+.s-accent .t-quote{border-left-color:rgba(255,255,255,.4)}
+
+.t-huge{font-size:9rem;font-weight:800;line-height:1;color:#F7585C;letter-spacing:-4px}
+.t-big{font-size:3rem;font-weight:700;line-height:1.4;word-break:keep-all}
+.t-emphasis{font-size:2rem;font-weight:700;line-height:1.55;word-break:keep-all}
+
+.hl{color:#F7585C}
+.s-accent .hl{color:#fff;text-decoration:underline;text-decoration-thickness:3px;text-underline-offset:4px}
+.dim{opacity:.45}
+
+/* ── Cover ── */
+.slide.cover{justify-content:center;padding-top:0}
+.cover .s-title{font-size:3.2rem;max-width:72%;margin-bottom:20px}
+.cover-sub{font-size:1.15rem;color:#5F656C;margin-bottom:6px}
+.s-dark .cover-sub{color:rgba(255,255,255,.4)}
+.cover-brand{font-size:.85rem;color:#F7585C;font-weight:700;letter-spacing:1.5px;margin-top:12px}
+
+/* ── Cards ── */
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:24px;max-width:92%}
+.grid-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:20px;max-width:95%}
+
+.card{padding:28px 30px;border-radius:14px;background:#F4F6F8}
+.s-dark .card,.s-gradient .card{background:rgba(255,255,255,.06)}
+.s-light .card{background:#fff;box-shadow:0 1px 4px rgba(0,0,0,.04)}
+.card-icon{font-size:1.8rem;margin-bottom:14px}
+.card-title{font-size:1.15rem;font-weight:700;margin-bottom:8px;line-height:1.4}
+.card-desc{font-size:.95rem;line-height:1.6;color:#5F656C}
+.s-dark .card-desc,.s-gradient .card-desc{color:rgba(255,255,255,.55)}
+
+/* ── Product Cards ── */
+.product-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;max-width:92%}
+.product-card{display:flex;align-items:flex-start;gap:16px;padding:22px 26px;border-radius:12px;background:#F4F6F8}
+.product-icon{font-size:1.8rem;flex-shrink:0;line-height:1.3}
+.product-name{font-weight:700;font-size:1.1rem;margin-bottom:5px}
+.product-desc{font-size:.92rem;color:#5F656C;line-height:1.55}
+
+/* ── Comparison Table ── */
+.cmp-table{width:90%;border-collapse:collapse;margin-top:8px}
+.cmp-table th{text-align:left;padding:14px 18px;font-size:.82rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:#5F656C;border-bottom:2px solid #E5E7EB}
+.cmp-table td{padding:16px 18px;font-size:1.05rem;line-height:1.5;border-bottom:1px solid #F0F0F0}
+.cmp-table td:first-child{font-weight:600;color:#030712;width:30%}
+.cmp-table .old{color:#9198A1}
+.cmp-table .new{color:#F7585C;font-weight:700}
+
+/* ── Venn Diagram ── */
+.venn-wrap{display:flex;align-items:center;gap:0;margin:10px 0}
+.venn-circle{width:190px;height:190px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.95rem;text-align:center;line-height:1.4;flex-shrink:0}
+.vc-1{background:rgba(247,88,92,.13);color:#F7585C;margin-right:-28px;z-index:1}
+.vc-2{background:rgba(59,130,246,.13);color:#3B82F6;margin-right:-28px;z-index:2}
+.vc-3{background:rgba(16,185,129,.13);color:#10B981;z-index:1}
+.venn-label{margin-left:48px;font-size:1.15rem;line-height:1.7;color:#5F656C;max-width:360px}
+
+/* ── Number List ── */
+.num-list{list-style:none;padding:0;counter-reset:item}
+.num-list li{font-size:1.3rem;line-height:1.5;padding:12px 0 12px 50px;position:relative;counter-increment:item;word-break:keep-all}
+.num-list li::before{content:counter(item);position:absolute;left:0;top:12px;width:34px;height:34px;border-radius:50%;background:#F7585C;color:#fff;display:flex;align-items:center;justify-content:center;font-size:.85rem;font-weight:700}
+.s-accent .num-list li::before{background:rgba(255,255,255,.25)}
+
+/* ── Check List ── */
+.chk-list{list-style:none;padding:0}
+.chk-list li{font-size:1.35rem;line-height:1.5;padding:10px 0 10px 40px;position:relative;word-break:keep-all}
+.chk-list li::before{content:'';position:absolute;left:0;top:16px;width:18px;height:18px;border-radius:50%;background:#F7585C}
+.s-accent .chk-list li::before{background:rgba(255,255,255,.3)}
+
+/* ── Demo Tag ── */
+.demo-tag{display:inline-block;padding:6px 16px;background:#F7585C;color:#fff;border-radius:6px;font-size:.8rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:20px}
+
+/* ── Animation ── */
+@keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+.slide.active .s-label{animation:fadeUp .45s ease .08s both}
+.slide.active .s-title{animation:fadeUp .45s ease .16s both}
+.slide.active .s-body>*{animation:fadeUp .45s ease .28s both}
+.slide.active .s-body>*:nth-child(2){animation-delay:.36s}
+.slide.active .s-body>*:nth-child(3){animation-delay:.42s}
+
+/* ── Center Variant ── */
+.slide.centered{align-items:center;text-align:center}
+.centered .s-title{max-width:90%;text-align:center}
+.centered .t-main{max-width:80%;text-align:center;margin:0 auto}
+.centered .t-sub{max-width:70%;text-align:center;margin:14px auto 0}
+
+/* ── Responsive ── */
+@media(max-width:1100px){
+  .slide{padding:56px 56px 40px}
+  .s-title{font-size:2.1rem}
+  .cover .s-title{font-size:2.6rem}
+  .t-huge{font-size:6.5rem}
+  .t-main{font-size:1.25rem}
+  .venn-circle{width:150px;height:150px;font-size:.82rem}
+  .grid-2,.grid-3,.product-grid{max-width:100%}
+}
+
+/* ══════════ 추가 컴포넌트 (템플릿 확장, 기존 CSS는 수정하지 않음) ══════════ */
+
+/* 코드/프롬프트 블록 */
+.code-box{
+  background:#0B0F19;color:#E5E7EB;border-radius:12px;padding:20px 24px;
+  font-family:'SFMono-Regular',Menlo,Consolas,monospace;font-size:.98rem;line-height:1.65;
+  max-width:92%;white-space:pre-wrap;word-break:break-word;border:1px solid rgba(255,255,255,.08);
+  box-shadow:0 8px 24px rgba(0,0,0,.15);
+}
+.code-box .prompt-label{color:#F7585C;font-weight:700;font-size:.78rem;letter-spacing:1.5px;text-transform:uppercase;display:block;margin-bottom:10px;font-family:'Pretendard',sans-serif}
+.s-white .code-box, .s-light .card .code-box, .s-coral .code-box{background:#0B0F19;color:#E5E7EB}
+
+/* 스텝 배지 */
+.step-badge{
+  display:inline-flex;align-items:center;gap:10px;padding:8px 18px;border-radius:999px;
+  background:#F7585C;color:#fff;font-weight:700;font-size:.85rem;margin-bottom:18px;letter-spacing:.5px;
+}
+
+/* 미니 카드(에러/팁) */
+.mini-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px;max-width:95%}
+.mini-card{padding:20px 24px;border-radius:12px;background:#fff;box-shadow:0 1px 4px rgba(0,0,0,.05);border-left:4px solid #F7585C}
+.mini-card .m-title{font-weight:700;font-size:1rem;margin-bottom:6px}
+.mini-card .m-desc{font-size:.9rem;color:#5F656C;line-height:1.55}
+.s-dark .mini-card,.s-gradient .mini-card{background:rgba(255,255,255,.06);border-left-color:rgba(247,88,92,.7)}
+.s-dark .mini-card .m-desc,.s-gradient .mini-card .m-desc{color:rgba(255,255,255,.55)}
+</style>
+</head>
+<body class="light-slide">
+<div class="nav" id="nav"></div>
+<div class="slide-num" id="slideNum"></div>
+<div class="deck" id="deck">
+
+<!-- 1. 커버 -->
+<div class="slide s-dark cover" data-theme="dark">
+  <div class="cover-brand">모두의연구소</div>
+  <h1 class="s-title" style="margin-top:16px">🐱 손동작으로<br>고양이 쓰다듬는<br>랜딩페이지 만들기</h1>
+  <p class="cover-sub">코드를 몰라도 괜찮아요. AI에게 말로 설명하고 함께 완성합니다.</p>
+  <p class="cover-sub dim">준비물: 노트북 + 웹캠 + 인터넷 (키보드의 방향키로 페이지를 넘겨주세요.)</p>
+  <p class="cover-sub dim" style="font-size:.78rem;margin-top:12px">※ 본 교안에 대한 별도의 학습 문의는 진행하지 않습니다.</p>
+</div>
+
+<!-- 2. 오늘 만들 것 -->
+<div class="slide s-white" data-theme="light">
+  <p class="s-label">Preview</p>
+  <h2 class="s-title">오늘 우리가 만드는 것</h2>
+  <div class="s-body">
+    <div class="demo-tag">Live Demo</div>
+    <p class="t-main">웹캠 앞에서 손을 <span class="hl">좌우로 쓰다듬는 동작</span>을 하면, 화면 속 고양이가 눈을 감고 <span class="hl">골골골 행복해하는</span> 인터랙티브 랜딩페이지예요.</p>
+    <p class="t-sub">손 인식 → 동작 판정 → 화면 반응, 이 세 가지 원리를 프롬프트 몇 번으로 완성합니다.</p>
+  </div>
+</div>
+
+<!-- 3. 바이브 코딩이란? -->
+<div class="slide s-light" data-theme="light">
+  <p class="s-label">Concept</p>
+  <h2 class="s-title">바이브 코딩이 뭔가요?</h2>
+  <div class="s-body">
+    <p class="t-main">문법을 외우는 대신, <span class="hl">"이런 걸 만들어줘"</span>라고 자연어로 설명하면 AI가 코드를 작성해주는 개발 방식이에요.</p>
+    <p class="t-sub">우리는 완벽한 코드를 짜는 사람이 아니라, AI에게 무엇을 원하는지 <span class="hl">명확하게 설명하는 사람</span>이 되면 됩니다.</p>
+  </div>
+</div>
+
+<!-- 4. 오늘의 준비물 -->
+<div class="slide s-white" data-theme="light">
+  <p class="s-label">Setup</p>
+  <h2 class="s-title">오늘의 준비물</h2>
+  <div class="s-body">
+    <div class="grid-3">
+      <div class="card"><div class="card-icon">🌐</div><div class="card-title">크롬 브라우저</div><div class="card-desc">웹캠 접근과 손 인식 기능을 사용하려면 최신 크롬을 추천해요</div></div>
+      <div class="card"><div class="card-icon">🤖</div><div class="card-title">Claude / ChatGPT / Gemini</div><div class="card-desc">우리 대신 코드를 작성해줄 AI 어시스턴트</div></div>
+      <div class="card"><div class="card-icon">📷</div><div class="card-title">웹캠</div><div class="card-desc">노트북 내장 카메라면 충분해요</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- 5. 전체 흐름 한눈에 -->
+<div class="slide s-gradient centered" data-theme="dark">
+  <h2 class="s-title">전체 흐름 한눈에 보기</h2>
+  <div class="s-body">
+    <ol class="num-list" style="text-align:left;display:inline-block">
+      <li>페이지 뼈대 만들기</li>
+      <li>고양이 그리기</li>
+      <li>웹캠 켜고 손 인식 붙이기</li>
+      <li>"쓰다듬기" 동작 판정하기</li>
+      <li>반응 애니메이션 추가하기</li>
+    </ol>
+  </div>
+</div>
+
+<!-- 6. Step 0: 작업공간 준비 -->
+<div class="slide s-white" data-theme="light">
+  <div class="step-badge">STEP 0</div>
+  <p class="s-label">Setup</p>
+  <h2 class="s-title">작업 전 마음의 준비하기</h2>
+  <div class="s-body">
+    <ul class="chk-list">
+      <li>교안대로 안되거나 모르는 내용이 있다면 AI에게 물어봐주세요.<br>AI가 현재 작업 상태를 가장 잘 알고 있습니다.</li>
+      <li>코드를 전체 수정해주지 않고 부분만 수정해준다면 전체를 수정하여 파일로 만들어 달라고 요청해보세요.</li>
+      <li>결과물은 <span class="hl">index.html</span> 파일 하나로 완성됩니다</li>
+    </ul>
+  </div>
+</div>
+
+<!-- 7. Step1: 뼈대 만들기 프롬프트 -->
+<div class="slide s-light" data-theme="light">
+  <div class="step-badge">STEP 1</div>
+  <p class="s-label">Prompt</p>
+  <h2 class="s-title">페이지 뼈대 요청하기</h2>
+  <div class="s-body">
+    <div class="code-box"><span class="prompt-label">이렇게 말해보세요</span>웹캠으로 손동작을 인식해서 화면이 바뀌는
+랜딩페이지를 만들고 싶어. 우선 index.html 파일에
+제목, 설명 문구, 고양이가 들어갈 네모난 영역,
+"카메라 시작하기" 버튼만 있는 기본 뼈대부터 만들어줘.</div>
+    <ul class="chk-list" style="margin-top:10px">
+      <li>검은 코드 박스 안의 프롬프트를 드래그하여 AI에게 요청하세요!</li>
+      <li>활용 단축키(복사 = Ctrl C, 붙여넣기 = Ctrl V)</li>
+    </ul>
+  </div>
+</div>
+
+<!-- 8. Step1 결과 확인 -->
+<div class="slide s-coral" data-theme="light">
+  <p class="s-label">Check</p>
+  <h2 class="s-title">결과 확인하기</h2>
+  <div class="s-body">
+    <ul class="chk-list">
+      <li>index.html을 다운받아 더블클릭해서 브라우저로 열어봐요</li>
+      <li>만약 파일 생성 없이 코드만 만들어주었다면 코드를 복사하여 메모장에 저장해주세요.<br>
+        <span style="font-size:.9em;color:#5F656C">(저장 시 파일 이름은 <strong>'index.html'</strong>, 파일 형식은 <strong>'모든 파일'</strong>로 설정 필수)</span></li>
+      <li>이렇게 저장한 후 생성한 파일을 열면 지금까지 진행한 부분을 볼 수 있어요!</li>
+      <li>메모장으로 HTML 파일을 만들기가 어렵다면 AI에게 HTML 파일로 만들어달라고 요청해주세요.</li>
+      <li>제목과 설명 문구가 보이나요?</li>
+      <li>네모난 영역과 버튼이 보이나요?</li>
+      <li>원하는 모습과 다르면 "여기를 이렇게 바꿔줘"라고 다시 요청하면 돼요</li>
+    </ul>
+  </div>
+</div>
+
+<!-- 9. Step2: 고양이 그리기 -->
+<div class="slide s-white" data-theme="light">
+  <div class="step-badge">STEP 2</div>
+  <p class="s-label">Prompt</p>
+  <h2 class="s-title">고양이 캐릭터 그려달라고 하기</h2>
+  <div class="s-body">
+    <div class="code-box"><span class="prompt-label">이렇게 말해보세요</span>네모 영역 안에 귀여운 고양이 얼굴을 SVG로
+그려줘. 눈은 뜬 상태와 감은 상태 두 가지를 만들고,
+평소엔 뜬 눈, 나중에 쓰다듬으면 감은 눈으로
+바뀌도록 준비해줘.</div>
+    <p class="t-sub" style="margin-top:18px;max-width:92%">먼저 요청했던 프롬프트와 같은 채팅창에 위의 프롬프트를 추가 요청해주세요.</p>
+  </div>
+</div>
+
+<!-- 10. Step2 트러블슈팅 -->
+<div class="slide s-light" data-theme="light">
+  <p class="s-label">Tip</p>
+  <h2 class="s-title">고양이가 이상하게 생겼다면?</h2>
+  <div class="s-body">
+    <p class="t-main">AI가 그린 그림이 마음에 안 들어도 괜찮아요. <span class="hl">"귀를 더 크게", "눈 색깔을 바꿔줘"</span>처럼 구체적으로 다시 요청해보세요.</p>
+    <p class="t-sub">한 번에 완벽한 결과를 기대하기보다, 대화하며 조금씩 다듬는 게 바이브 코딩의 핵심이에요.</p>
+  </div>
+</div>
+
+<!-- 11. Step3 개념: 손 인식이란 -->
+<div class="slide s-gradient centered" data-theme="dark">
+  <p class="s-label">Concept</p>
+  <h2 class="s-title">손동작 인식은 어떻게 작동할까요?</h2>
+  <div class="s-body">
+    <p class="t-main">MediaPipe Hands라는 구글의 무료 도구가 카메라 화면에서 손의 <span class="hl">21개 관절 위치</span>를 실시간으로 찾아줘요.</p>
+    <p class="t-sub">우리는 이 21개 점 중 손바닥 위치가 어떻게 움직이는지만 보면 됩니다.</p>
+  </div>
+</div>
+
+<!-- 12. Step3: 웹캠+인식 붙이기 프롬프트 -->
+<div class="slide s-white" data-theme="light">
+  <div class="step-badge">STEP 3</div>
+  <p class="s-label">Prompt</p>
+  <h2 class="s-title">웹캠과 손 인식 연결하기</h2>
+  <div class="s-body">
+    <div class="code-box"><span class="prompt-label">이렇게 말해보세요</span>"카메라 시작하기" 버튼을 누르면 웹캠을 켜고,
+MediaPipe Hands 라이브러리로 손을 인식하게 해줘.
+화면 오른쪽 아래에 카메라 화면과 인식된 손 관절
+점들을 작게 미리보기로 보여줘.</div>
+  </div>
+</div>
+
+<!-- 13. Step3 결과 확인 -->
+<div class="slide s-coral" data-theme="light">
+  <p class="s-label">Check</p>
+  <h2 class="s-title">결과 확인하기</h2>
+  <div class="s-body">
+    <ul class="chk-list">
+      <li>버튼을 누르면 카메라 권한 요청 창이 뜨나요? → 허용을 눌러요</li>
+      <li>화면 구석에 내 손이 비치나요?</li>
+      <li>손 위에 점과 선(관절)이 그려지나요?</li>
+      <li>안 되면 현재 컴퓨터 상황을 캡처해서 AI에게 물어보세요</li>
+    </ul>
+  </div>
+</div>
+
+<!-- 14. Step4 개념: 쓰다듬기 판정 로직 -->
+<div class="slide s-light" data-theme="light">
+  <p class="s-label">Concept</p>
+  <h2 class="s-title">"쓰다듬는 동작"은 어떻게 판단할까요?</h2>
+  <div class="s-body">
+    <p class="t-main">손이 고양이 영역 안에서 <span class="hl">왼쪽 → 오른쪽 → 왼쪽</span>처럼 방향을 반복해서 바꾸면, 그걸 쓰다듬는 동작으로 판단해요.</p>
+    <p class="t-sub">최근 1초 동안 손의 위치를 기록해두고, 방향이 몇 번 바뀌었는지 세는 방식이에요.</p>
+  </div>
+</div>
+
+<!-- 15. Step4: 프롬프트로 로직 추가 -->
+<div class="slide s-white" data-theme="light">
+  <div class="step-badge">STEP 4</div>
+  <p class="s-label">Prompt</p>
+  <h2 class="s-title">쓰다듬기 판정 로직 요청하기</h2>
+  <div class="s-body">
+    <div class="code-box"><span class="prompt-label">이렇게 말해보세요</span>손 위치가 고양이 영역 안에서 좌우로 왔다갔다
+하는 걸 감지해서, 방향이 2번 이상 바뀌면
+"쓰다듬는 중"이라고 판단하는 로직을 추가해줘.
+쓰다듬는 중일 땐 상태 표시 문구도 바꿔줘.</div>
+  </div>
+</div>
+
+<!-- 16. Step5: 반응 애니메이션 -->
+<div class="slide s-coral" data-theme="light">
+  <div class="step-badge">STEP 5</div>
+  <p class="s-label">Prompt</p>
+  <h2 class="s-title">고양이 반응 애니메이션 추가하기</h2>
+  <div class="s-body">
+    <div class="code-box"><span class="prompt-label">이렇게 말해보세요</span>쓰다듬는 중일 때 고양이 눈을 감은 눈으로
+바꾸고, 볼에 홍조를 넣고, 하트 이모지가
+위로 떠오르는 효과를 추가해줘. 또 애정도
+게이지 바를 만들어서 쓰다듬을 때마다 조금씩
+채워지게 해줘.</div>
+  </div>
+</div>
+
+<!-- 17. Step5 결과 확인 -->
+<div class="slide s-white" data-theme="light">
+  <p class="s-label">Check</p>
+  <h2 class="s-title">완성본 확인하기</h2>
+  <div class="s-body">
+    <ul class="chk-list">
+      <li>손으로 고양이 위를 좌우로 움직이면 눈이 감기나요?</li>
+      <li>하트가 떠오르나요?</li>
+      <li>게이지 바가 채워지나요?</li>
+      <li>손을 멈추면 원래 표정으로 돌아오나요?</li>
+    </ul>
+  </div>
+</div>
+
+<!-- 18. 자주 만나는 에러 -->
+<div class="slide s-light" data-theme="light">
+  <p class="s-label">Troubleshooting</p>
+  <h2 class="s-title">자주 만나는 문제들</h2>
+  <div class="s-body">
+    <div class="mini-grid">
+      <div class="mini-card"><div class="m-title">카메라 권한 거부</div><div class="m-desc">브라우저 주소창의 자물쇠 아이콘에서 카메라 권한을 다시 허용해요</div></div>
+      <div class="mini-card"><div class="m-title">라이브러리 로딩 실패</div><div class="m-desc">인터넷 연결을 확인하고 새로고침 해봐요</div></div>
+      <div class="mini-card"><div class="m-title">손이 인식 안 됨</div><div class="m-desc">조명을 밝게 하고 손 전체가 화면에 보이게 해봐요</div></div>
+      <div class="mini-card"><div class="m-title">화면이 하얗게 나옴</div><div class="m-desc">개발자 도구(F12)의 콘솔 에러 메시지를 AI에게 그대로 붙여넣어 물어봐요</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- 19. 더 발전시켜보기 -->
+<div class="slide s-white" data-theme="light">
+  <p class="s-label">Next Level</p>
+  <h2 class="s-title">더 발전시켜볼까요?</h2>
+  <div class="s-body">
+    <div class="grid-3">
+      <div class="card"><div class="card-icon">🐶</div><div class="card-title">다른 동물로</div><div class="card-desc">강아지, 토끼 등 다른 캐릭터로 바꿔보세요</div></div>
+      <div class="card"><div class="card-icon">✌️</div><div class="card-title">다른 제스처</div><div class="card-desc">하이파이브, 주먹 인사 동작도 인식해보세요</div></div>
+      <div class="card"><div class="card-icon">🔊</div><div class="card-title">소리 추가</div><div class="card-desc">쓰다듬을 때 골골 소리를 재생해보세요</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- 20. 배포하기 -->
+<div class="slide s-gradient centered" data-theme="dark">
+  <p class="s-label">Deploy</p>
+  <h2 class="s-title">완성한 페이지, 무료로 배포하기</h2>
+  <div class="s-body">
+    <ol class="num-list" style="text-align:left;display:inline-block">
+      <li>netlify.com 접속 후 회원가입</li>
+      <li>index.html이 든 폴더를 화면에 드래그 앤 드롭</li>
+      <li>몇 초 뒤 생성되는 링크를 친구에게 공유</li>
+    </ol>
+  </div>
+</div>
+
+<!-- 21. 오늘 배운 것 정리 -->
+<div class="slide s-light" data-theme="light">
+  <p class="s-label">Summary</p>
+  <h2 class="s-title">오늘 배운 것 정리</h2>
+  <div class="s-body">
+    <ul class="chk-list">
+      <li>바이브 코딩 = AI에게 자연어로 원하는 것을 설명하며 함께 만들기</li>
+      <li>MediaPipe Hands로 웹캠에서 손 관절 21개를 추적할 수 있다</li>
+      <li>손의 좌우 반복 움직임으로 "쓰다듬기" 같은 동작을 판정할 수 있다</li>
+      <li>문제가 생기면 에러 메시지를 그대로 AI에게 물어보면 된다</li>
+    </ul>
+  </div>
+</div>
+
+
+<!-- 22. 더 배우고 싶다면 -->
+<div class="slide s-white" data-theme="light">
+  <p class="s-label">Next Step</p>
+  <h2 class="s-title" style="margin-bottom:26px">AI 요청만으로 결과물을 만드는<br>바이브 코딩에 대해 더 배우고 싶다면?</h2>
+  <div class="s-body">
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;max-width:96%">
+      <a href="https://class.modulabs.co.kr/classes/75" target="_blank" rel="noopener noreferrer" style="text-decoration:none;color:inherit">
+        <div class="card" style="padding:20px 22px;height:100%">
+          <div class="card-title" style="font-size:1rem">[AI 능력자] 비개발자도 할 수 있는 바이브 코딩 업무 자동화</div>
+          <div class="card-desc" style="color:#F7585C;margin-top:7px">https://service.modulabs.co.kr/r/D7zHV8a8</div>
+        </div>
+      </a>
+      <a href="https://class.modulabs.co.kr/classes/18" target="_blank" rel="noopener noreferrer" style="text-decoration:none;color:inherit">
+        <div class="card" style="padding:20px 22px;height:100%">
+          <div class="card-title" style="font-size:1rem">[왕초보] 비개발자도 할 수 있는 바이브 코딩 웹 개발</div>
+          <div class="card-desc" style="color:#F7585C;margin-top:7px">https://service.modulabs.co.kr/r/9EzCPFv7</div>
+        </div>
+      </a>
+      <a href="https://class.modulabs.co.kr/classes/25" target="_blank" rel="noopener noreferrer" style="text-decoration:none;color:inherit">
+        <div class="card" style="padding:20px 22px;height:100%">
+          <div class="card-title" style="font-size:1rem">[AI 능력자] 바이브 코딩 with Cursor: 챗봇, DB 배포까지</div>
+          <div class="card-desc" style="color:#F7585C;margin-top:7px">https://service.modulabs.co.kr/r/1hRRGsHU</div>
+        </div>
+      </a>
+      <a href="https://class.modulabs.co.kr/classes/137" target="_blank" rel="noopener noreferrer" style="text-decoration:none;color:inherit">
+        <div class="card" style="padding:20px 22px;height:100%">
+          <div class="card-title" style="font-size:1rem">AI와 함께 코딩하자! 인공지능/데이터 커리어 첫걸음</div>
+          <div class="card-desc" style="color:#F7585C;margin-top:7px">https://service.modulabs.co.kr/r/rGt2eDxA</div>
+        </div>
+      </a>
+    </div>
+  </div>
+</div>
+
+<!-- 23. 마무리 -->
+<div class="slide s-dark centered" data-theme="dark">
+  <p class="s-label">Thank You</p>
+  <h1 class="s-title">코드를 몰라도,<br>만들고 싶은 걸 <span style="color:#fff">말</span>할 수 있다면<br>이미 시작한 거예요</h1>
+  <p class="cover-sub">오늘 만든 랜딩페이지에 여러분만의 아이디어를 더해보세요</p>
+  <p class="cover-brand">모두의연구소 · 경쟁이 아닌 상생</p>
+  <div style="margin-top:24px;font-size:.72rem;line-height:1.7;color:rgba(255,255,255,.42);max-width:760px;word-break:keep-all">
+    <strong style="font-weight:700;color:rgba(255,255,255,.55)">© 2026 모두의연구소. All rights reserved.</strong><br>
+    본 전자책 및 강의 교안은 저작권법의 보호를 받는 저작물입니다.<br>
+    저작권자의 사전 동의 없는 무단 복제·배포·공유·재판매를 금지하며,<br>
+    위반 시 관련 법령에 따라 법적 책임이 발생할 수 있습니다.
+  </div>
+</div>
+
+</div>
+<script>
+(function(){
+  const slides = document.querySelectorAll('.slide');
+  const nav = document.getElementById('nav');
+  const numEl = document.getElementById('slideNum');
+  const total = slides.length;
+  let current = 0;
+
+  slides.forEach((_, i) => {
+    const dot = document.createElement('button');
+    dot.className = 'nav-dot';
+    dot.title = `Slide ${i + 1}`;
+    dot.addEventListener('click', () => go(i));
+    nav.appendChild(dot);
+  });
+  const dots = nav.querySelectorAll('.nav-dot');
+
+  function go(index) {
+    if (index < 0 || index >= total) return;
+    slides[current].classList.remove('active');
+    dots[current].classList.remove('active');
+    current = index;
+    slides[current].classList.add('active');
+    dots[current].classList.add('active');
+    const theme = slides[current].dataset.theme;
+    document.body.classList.toggle('light-slide', theme === 'light');
+    numEl.textContent = `${current + 1} / ${total}`;
+    numEl.className = 'slide-num' + (theme === 'dark' ? '' : '');
+  }
+
+  go(0);
+
+  document.addEventListener('keydown', e => {
+    if (e.key === 'ArrowRight' || e.key === 'ArrowDown' || e.key === ' ') { e.preventDefault(); go(current + 1); }
+    if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') { e.preventDefault(); go(current - 1); }
+    if (e.key === 'Home') { e.preventDefault(); go(0); }
+    if (e.key === 'End') { e.preventDefault(); go(total - 1); }
+    if (e.key === 'f' || e.key === 'F') {
+      if (!document.fullscreenElement) document.documentElement.requestFullscreen();
+      else document.exitFullscreen();
+    }
+  });
+
+  // NO click-to-advance (intentional)
+})();
+</script>
+</body>
+</html>
