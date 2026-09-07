@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ChatGPT 대규모 업데이트 수강생 가이드</title>
+    <style>
+        *{margin:0;padding:0;box-sizing:border-box}html,body{width:100%;height:100%;overflow:hidden;font-family:'Pretendard',-apple-system,sans-serif;background:#030712;-webkit-font-smoothing:antialiased}.nav{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;justify-content:center;gap:3px;padding:10px 40px;opacity:.15;transition:opacity .4s}.nav:hover{opacity:.85}.nav-dot{width:28px;height:3px;background:rgba(255,255,255,.25);border-radius:2px;border:none;cursor:pointer;transition:all .25s;flex-shrink:0}.nav-dot.active{background:#F7585C;width:36px}.nav-dot:hover{background:rgba(247,88,92,.6)}body.light-slide .nav-dot{background:rgba(0,0,0,.12)}body.light-slide .nav-dot.active{background:#F7585C}.slide-num{position:fixed;bottom:24px;right:36px;font-size:.75rem;color:rgba(255,255,255,.15);z-index:100;font-variant-numeric:tabular-nums;letter-spacing:1px}body.light-slide .slide-num{color:rgba(0,0,0,.12)}.deck{width:100%;height:100%;position:relative}.slide{position:absolute;inset:0;display:flex;flex-direction:column;padding:72px 96px 56px;opacity:0;transition:opacity .45s ease;pointer-events:none;overflow:hidden}.slide.active{opacity:1;pointer-events:auto}.s-white{background:#fff;color:#030712}.s-light{background:#F4F6F8;color:#030712}.s-dark{background:#030712;color:#fff}.s-accent{background:#F7585C;color:#fff}.s-coral{background:#FFF2F2;color:#030712}.s-gradient{background:linear-gradient(135deg,#030712 0%,#1a1f2e 100%);color:#fff}.s-label{font-size:.78rem;font-weight:700;letter-spacing:2.5px;text-transform:uppercase;color:#F7585C;margin-bottom:14px}.s-dark .s-label,.s-gradient .s-label,.s-accent .s-label{color:rgba(255,255,255,.45)}.s-title{font-size:2.6rem;font-weight:700;line-height:1.35;margin-bottom:36px;max-width:80%;word-break:keep-all}.s-body{flex:1;display:flex;flex-direction:column;justify-content:flex-start}.t-main{font-size:1.45rem;line-height:1.75;color:#2E3339;max-width:75%;word-break:keep-all}.s-dark .t-main,.s-gradient .t-main{color:rgba(255,255,255,.82)}.s-accent .t-main{color:rgba(255,255,255,.92)}.t-sub{font-size:1.05rem;line-height:1.65;color:#5F656C;margin-top:14px;max-width:70%;word-break:keep-all}.s-dark .t-sub,.s-gradient .t-sub{color:rgba(255,255,255,.4)}.hl{color:#F7585C}.dim{opacity:.45}.slide.cover{justify-content:center;padding-top:0}.cover .s-title{font-size:3.2rem;max-width:72%;margin-bottom:20px}.cover-sub{font-size:1.15rem;color:#5F656C;margin-bottom:6px}.s-dark .cover-sub{color:rgba(255,255,255,.4)}.cover-brand{font-size:.85rem;color:#F7585C;font-weight:700;letter-spacing:1.5px;margin-top:12px}.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:24px;max-width:92%}.grid-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:20px;max-width:95%}.card{padding:28px 30px;border-radius:14px;background:#F4F6F8}.s-dark .card,.s-gradient .card{background:rgba(255,255,255,.06)}.s-light .card{background:#fff;box-shadow:0 1px 4px rgba(0,0,0,.04)}.card-icon{font-size:1.8rem;margin-bottom:14px}.card-title{font-size:1.15rem;font-weight:700;margin-bottom:8px;line-height:1.4}.card-desc{font-size:.95rem;line-height:1.6;color:#5F656C}.s-dark .card-desc,.s-gradient .card-desc{color:rgba(255,255,255,.55)}.cmp-table{width:90%;border-collapse:collapse;margin-top:8px}.cmp-table th{text-align:left;padding:14px 18px;font-size:.82rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:#5F656C;border-bottom:2px solid #E5E7EB}.cmp-table td{padding:16px 18px;font-size:1.05rem;line-height:1.5;border-bottom:1px solid #F0F0F0}.cmp-table td:first-child{font-weight:600;color:#030712;width:28%}.cmp-table .old{color:#9198A1;text-decoration:line-through}.cmp-table .new{color:#F7585C;font-weight:700}.num-list{list-style:none;padding:0;counter-reset:item}.num-list li{font-size:1.25rem;line-height:1.5;padding:11px 0 11px 50px;position:relative;counter-increment:item;word-break:keep-all}.num-list li::before{content:counter(item);position:absolute;left:0;top:11px;width:34px;height:34px;border-radius:50%;background:#F7585C;color:#fff;display:flex;align-items:center;justify-content:center;font-size:.85rem;font-weight:700}.changed-badge{display:inline-flex;align-items:center;gap:4px;padding:2px 9px;background:#FFF2F2;border:1px solid #F7585C;color:#F7585C;border-radius:99px;font-size:.72rem;font-weight:700;margin-left:8px;vertical-align:middle}.new-badge{display:inline-flex;align-items:center;gap:4px;padding:2px 9px;background:#F7585C;color:#fff;border-radius:99px;font-size:.72rem;font-weight:700;margin-left:8px;vertical-align:middle}.callout{display:flex;gap:12px;align-items:flex-start;padding:14px 18px;border-radius:10px;background:#FFF2F2;border-left:4px solid #F7585C;margin-top:14px}.callout-icon{font-size:1.3rem;flex-shrink:0;line-height:1.3}.callout-text{font-size:.9rem;line-height:1.6;color:#2E3339}.callout-text strong{color:#F7585C}.path-row{display:flex;align-items:center;gap:8px;padding:10px 14px;background:#F4F6F8;border-radius:8px;margin-bottom:10px;font-size:.88rem;flex-wrap:wrap}.path-step{padding:4px 10px;background:#fff;border-radius:6px;border:1px solid #E5E7EB;font-weight:600;font-size:.85rem}.img-wrap{position:relative;border-radius:12px;overflow:hidden;border:1.5px solid #E5E7EB;background:#F4F6F8;cursor:pointer}.img-wrap img{width:100%;display:block;object-fit:cover}.img-overlay{position:absolute;inset:0;background:rgba(0,0,0,0);display:flex;align-items:center;justify-content:center;opacity:0;transition:all .2s}.img-wrap:hover .img-overlay{background:rgba(0,0,0,.45);opacity:1}.img-overlay-text{color:#fff;font-size:.82rem;font-weight:700;background:rgba(247,88,92,.85);padding:6px 16px;border-radius:99px}.img-source{font-size:.72rem;color:#9198A1;margin-top:5px}.img-placeholder{width:100%;aspect-ratio:16/9;background:#F4F6F8;border:2px dashed #D1D5DB;border-radius:12px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;cursor:pointer}.img-placeholder:hover{border-color:#F7585C}.img-placeholder-icon{font-size:2rem;opacity:.35}.img-placeholder-text{font-size:.8rem;color:#9198A1;font-weight:600}.source-bar{position:fixed;bottom:0;left:0;right:60px;padding:7px 96px;background:rgba(255,255,255,.92);backdrop-filter:blur(8px);border-top:1px solid #F0F0F0;z-index:100;font-size:.7rem;color:#9198A1;display:flex;align-items:center;gap:6px}body:not(.light-slide) .source-bar{background:rgba(3,7,18,.85);border-top-color:rgba(255,255,255,.08);color:rgba(255,255,255,.28)}.modal-bg2{position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:500;display:none;align-items:center;justify-content:center}.modal-bg2.open{display:flex}.modal2{background:#fff;border-radius:16px;padding:26px 30px;width:460px;max-width:90vw}.modal2 h3{font-size:1.05rem;font-weight:700;margin-bottom:10px}.modal2 input{width:100%;padding:9px 13px;border:1.5px solid #E5E7EB;border-radius:8px;font-size:.9rem;outline:none;margin-bottom:8px}.modal2 input:focus{border-color:#F7585C}.modal2-note{font-size:.73rem;color:#9198A1;word-break:break-all}.modal2-btns{display:flex;gap:9px;justify-content:flex-end;margin-top:14px}.modal2-btn{padding:7px 18px;border-radius:8px;font-size:.86rem;font-weight:600;cursor:pointer;border:1.5px solid #E5E7EB;background:#fff;font-family:'Pretendard',sans-serif}.modal2-btn.primary{background:#F7585C;color:#fff;border-color:#F7585C}@keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}.slide.active .s-label{animation:fadeUp .45s ease .08s both}.slide.active .s-title{animation:fadeUp .45s ease .16s both}.slide.active .s-body>*{animation:fadeUp .45s ease .28s both}.slide.active .s-body>*:nth-child(2){animation-delay:.36s}.slide.active .s-body>*:nth-child(3){animation-delay:.42s}.slide.centered{align-items:center;text-align:center}.centered .s-title{max-width:90%;text-align:center}.centered .t-main{max-width:80%;text-align:center;margin:0 auto}@media(max-width:1100px){.slide{padding:56px 56px 40px}.s-title{font-size:2.1rem}.source-bar{padding:7px 56px}}
+    </style>
+</head>
+<body>
+    <div class="nav">
+        <button class="nav-dot"></button>
+        <button class="nav-dot"></button>
+        <button class="nav-dot"></button>
+        <button class="nav-dot"></button>
+        <button class="nav-dot"></button>
+        <button class="nav-dot"></button>
+        <button class="nav-dot"></button>
+        <button class="nav-dot"></button>
+        <button class="nav-dot"></button>
+    </div>
+    <div class="slide-num" id="slideNum"></div>
+
+    <div class="deck">
+        <!-- Slide 1: 커버 (s-dark) -->
+        <div class="slide cover s-dark">
+            <div class="cover-sub">모두의연구소 AI 툴 수강생 가이드</div>
+            <h1 class="s-title">ChatGPT<br>대규모 업데이트</h1>
+            <div class="cover-sub">버전: GPT-5.6 Sol & Luna</div>
+            <div class="cover-sub dim">2026년 8월 업데이트 요약</div>
+            <div class="cover-brand">모두의연구소</div>
+        </div>
+
+        <!-- Slide 2: 비교테이블 (s-white) -->
+        <div class="slide s-white">
+            <div class="s-label">주요 변경사항 요약</div>
+            <h2 class="s-title">ChatGPT, 이렇게 <span class="hl">달라졌어요!</span></h2>
+            <div class="s-body">
+                <table class="cmp-table">
+                    <thead>
+                        <tr>
+                            <th>기능</th>
+                            <th>기존 (예상)</th>
+                            <th>신규 (2026년 8월)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>GPT 모델</td>
+                            <td class="old">GPT-4.x / GPT-4o</td>
+                            <td class="new">GPT-5.6 Sol &amp; Luna <span class="new-badge">NEW</span></td>
+                        </tr>
+                        <tr>
+                            <td>태스크 자동화</td>
+                            <td class="old">제한적</td>
+                            <td class="new">웹훅 기반 스케줄링 태스크 <span class="new-badge">NEW</span></td>
+                        </tr>
+                        <tr>
+                            <td>웹 통합</td>
+                            <td class="old">제한적</td>
+                            <td class="new">ChatGPT Work 브라우저 (로그인 웹사이트 작업) <span class="new-badge">NEW</span></td>
+                        </tr>
+                        <tr>
+                            <td>AI 에이전트</td>
+                            <td class="old">기본 기능</td>
+                            <td class="new">'Site tools (WebMCP)' 도입 <span class="new-badge">NEW</span></td>
+                        </tr>
+                        <tr>
+                            <td>파일 연동</td>
+                            <td class="old">제한적</td>
+                            <td class="new">Google Drive 통합 (사이드 바이 사이드) <span class="new-badge">NEW</span></td>
+                        </tr>
+                        <tr>
+                            <td>이미지 생성/편집</td>
+                            <td class="old">DALL·E GPT (별도)</td>
+                            <td class="new">ChatGPT Images (통합) <span class="changed-badge">UPDATED</span></td>
+                        </tr>
+                        <tr>
+                            <td>데스크톱 앱</td>
+                            <td class="old">macOS (제한적)</td>
+                            <td class="new">macOS (컴퓨터 활동 기록), Linux (공개 프리뷰) <span class="new-badge">NEW</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Slide 3: 주요기능 (s-light) -->
+        <div class="slide s-light">
+            <div class="s-label">핵심 업데이트</div>
+            <h2 class="s-title">생산성을 극대화하는 ChatGPT의 <span class="hl">혁신</span></h2>
+            <div class="s-body grid-2">
+                <div class="card">
+                    <div class="card-title">신규 AI 모델 출시 <span class="new-badge">NEW</span></div>
+                    <div class="card-desc">Plus/Pro 사용자를 위한 GPT-5.6 Sol, Free/Go 사용자를 위한 GPT-5.6 Luna 모델 도입. 향상된 사실 정확도와 'Think' 버튼 제공.</div>
+                </div>
+                <div class="card">
+                    <div class="card-title">태스크 자동화 및 웹 통합 강화 <span class="new-badge">NEW</span></div>
+                    <div class="card-desc">웹훅(Webhook) 기반 스케줄링 태스크 (Gmail, Slack, GitHub 연동) 및 ChatGPT Work 브라우저를 통한 로그인 웹사이트 작업 지원. AI 에이전트를 위한 'Site tools (WebMCP)' 도입.</div>
+                </div>
+                <div class="card">
+                    <div class="card-title">생산성 및 협업 기능 확장 <span class="new-badge">NEW</span></div>
+                    <div class="card-desc">Google Drive 통합 (파일 연동, 사이드 바이 사이드 작업), Apple Messages 지원, macOS용 컴퓨터 활동 기록(Computer History) 기능 추가.</div>
+                </div>
+                <div class="card">
+                    <div class="card-title">사용자 경험 및 플랫폼 확장 <span class="new-badge">NEW</span></div>
+                    <div class="card-desc">임시 채팅 제어 강화 (개인화 및 저장 옵션), 대화형 퀴즈, Linux 데스크톱 앱 공개 프리뷰, 모바일 앱 개선 (iOS 사진 공유, Android 이미지/채팅 보기).</div>
+                </div>
+                <div class="card">
+                    <div class="card-title">산업별 솔루션 및 편의 기능 <span class="new-badge">NEW</span></div>
+                    <div class="card-desc">교육용 플러그인(ChatGPT Work 및 Codex), 학술 연구자를 위한 전용 워크스페이스 제공, 식당 예약 검색(OpenTable, Resy, Yelp 연동), 대용량 붙여넣기 자동 파일 첨부 기능.</div>
+                </div>
+                <div class="card">
+                    <div class="card-title">기존 기능 통합 <span class="changed-badge">UPDATED</span></div>
+                    <div class="card-desc">공식 DALL·E GPT 서비스는 2026년 8월 30일부로 중단되며, ChatGPT Images로 통합하여 이미지 생성 및 편집 기능을 제공합니다.</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 4: 사용법 (s-white) -->
+        <div class="slide s-white">
+            <div class="s-label">주요 기능 사용법</div>
+            <h2 class="s-title">GPT-5.6 모델 및 자동화 활용 <span class="hl">가이드</span></h2>
+            <div class="s-body">
+                <ol class="num-list">
+                    <li>
+                        <strong>GPT-5.6 모델 선택:</strong> Plus/Pro 사용자는 설정에서 'GPT-5.6 Sol', Free/Go 사용자는 'GPT-5.6 Luna' 모델이 기본으로 적용됩니다. <span class="new-badge">NEW</span>
+                    </li>
+                    <li>
+                        <strong>'Think' 버튼 활용:</strong> 답변이 불확실하거나 더 심층적인 분석이 필요할 때, 답변 하단의 'Think' 버튼을 클릭하여 AI의 사고 과정을 유도하고 개선된 답변을 얻습니다. <span class="new-badge">NEW</span>
+                    </li>
+                    <li>
+                        <strong>웹훅 기반 자동화 설정:</strong> ChatGPT 설정 메뉴에서 'Task Automation'으로 진입하여 Gmail, Slack, GitHub 웹훅을 연결하고, 반복적인 태스크를 스케줄링하여 자동 실행합니다. <span class="new-badge">NEW</span>
+                    </li>
+                    <li>
+                        <strong>Google Drive 연동:</strong> 채팅 중 첨부 파일 아이콘을 클릭하여 Google Drive 파일을 직접 연동합니다. 문서, 스프레드시트, 프레젠테이션 파일을 ChatGPT와 사이드 바이 사이드로 작업하며 콘텐츠를 분석하고 생성합니다. <span class="new-badge">NEW</span>
+                    </li>
+                    <li>
+                        <strong>ChatGPT Work 브라우저 사용:</strong> 웹사이트 로그인 정보를 저장하고, 복잡한 웹 기반 작업(예: 데이터 입력, 양식 제출)을 ChatGPT에게 지시하여 자동 실행하게 합니다. <span class="new-badge">NEW</span>
+                    </li>
+                </ol>
+            </div>
+        </div>
+
+        <!-- Slide 5: UI경로 (s-light) -->
+        <div class="slide s-light">
+            <div class="s-label">UI 경로 안내</div>
+            <h2 class="s-title">새로운 기능, <span class="hl">어디서 찾을 수 있나요?</span></h2>
+            <div class="s-body">
+                <div class="t-main" style="margin-bottom: 24px;">다음 경로를 따라가면 업데이트된 ChatGPT의 신기능들을 쉽게 발견하고 활용할 수 있습니다.</div>
+                <div class="path-row">
+                    <strong>GPT-5.6 모델 전환:</strong>
+                    <span class="path-step">설정</span>
+                    <span class="path-step">&gt;</span>
+                    <span class="path-step">모델 선택</span>
+                    <span class="path-step">&gt;</span>
+                    <span class="path-step">GPT-5.6 Sol/Luna</span>
+                </div>
+                <div class="path-row">
+                    <strong>'Think' 버튼:</strong>
+                    <span class="path-step">채팅창</span>
+                    <span class="path-step">&gt;</span>
+                    <span class="path-step">답변 하단</span>
+                </div>
+                <div class="path-row">
+                    <strong>태스크 자동화:</strong>
+                    <span class="path-step">설정</span>
+                    <span class="path-step">&gt;</span>
+                    <span class="path-step">Task Automation</span>
+                </div>
+                <div class="path-row">
+                    <strong>Google Drive 연동:</strong>
+                    <span class="path-step">채팅 입력창</span>
+                    <span class="path-step">&gt;</span>
+                    <span class="path-step">첨부 파일 아이콘</span>
+                    <span class="path-step">&gt;</span>
+                    <span class="path-step">Google Drive</span>
+                </div>
+                <div class="path-row">
+                    <strong>Site tools (WebMCP):</strong>
+                    <span class="path-step">설정</span>
+                    <span class="path-step">&gt;</span>
+                    <span class="path-step">AI Agents</span>
+                    <span class="path-step">&gt;</span>
+                    <span class="path-step">Site tools (WebMCP)</span>
+                </div>
+                <div class="path-row">
+                    <strong>ChatGPT Images (통합):</strong>
+                    <span class="path-step">채팅 입력창</span>
+                    <span class="path-step">&gt;</span>
+                    <span class="path-step">이미지 생성/편집 아이콘</span>
+                </div>
+                <div class="path-row">
+                    <strong>macOS 컴퓨터 활동 기록:</strong>
+                    <span class="path-step">macOS 앱</span>
+                    <span class="path-step">&gt;</span>
+                    <span class="path-step">설정</span>
+                    <span class="path-step">&gt;</span>
+                    <span class="path-step">Computer History</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 6: 설정가이드 (s-coral) -->
+        <div class="slide s-coral">
+            <div class="s-label">심화 설정 가이드</div>
+            <h2 class="s-title">AI 에이전트 및 개인화 <span class="hl">설정</span></h2>
+            <div class="s-body">
+                <ol class="num-list">
+                    <li>
+                        <strong>'Site tools (WebMCP)' 활성화:</strong> `[설정] > [AI Agents] > [Site tools]` 경로에서 웹사이트 접근 권한 및 사용 가능한 도구를 설정하여 AI 에이전트의 활용 범위를 확장합니다. <span class="new-badge">NEW</span>
+                    </li>
+                    <li>
+                        <strong>임시 채팅 제어:</strong> `[새 채팅 시작] > [임시 채팅 옵션]`에서 현재 대화의 저장 여부 및 개인화 학습 적용 범위를 세밀하게 설정하여 개인정보 보호와 편의성을 높입니다. <span class="new-badge">NEW</span>
+                    </li>
+                    <li>
+                        <strong>macOS 컴퓨터 활동 기록 관리:</strong> `[macOS 앱] > [설정] > [Computer History]`에서 ChatGPT가 학습할 컴퓨터 활동 기록의 범위와 제외할 앱을 설정하여 개인화된 AI 경험을 만듭니다. <span class="new-badge">NEW</span>
+                    </li>
+                    <li>
+                        <strong>학술 연구 전용 워크스페이스:</strong> `[ChatGPT Work] > [워크스페이스 전환]`을 통해 학술 연구 모드를 활성화하면, 논문 검색 및 요약 기능이 최적화되어 연구 생산성을 크게 향상시킬 수 있습니다. <span class="new-badge">NEW</span>
+                    </li>
+                </ol>
+            </div>
+        </div>
+
+        <!-- Slide 7: 활용가이드 (s-coral) -->
+        <div class="slide s-coral">
+            <div class="s-label">실용적인 활용법</div>
+            <h2 class="s-title">업데이트된 ChatGPT로 <span class="hl">생산성 높이기</span></h2>
+            <div class="s-body">
+                <ol class="num-list">
+                    <li>
+                        <strong>보고서 자동 작성 및 요약:</strong> Google Drive에 연동된 보고서 파일을 ChatGPT에게 분석하게 한 후, 초안을 작성하고 요약본을 만들어 웹훅을 통해 관련 팀 Slack 채널에 자동으로 알림을 전송합니다. <span class="new-badge">NEW</span>
+                    </li>
+                    <li>
+                        <strong>복잡한 온라인 예약 자동화:</strong> ChatGPT Work 브라우저를 활용하여 OpenTable, Resy, Yelp 등 연동된 서비스를 통해 원하는 식당을 검색하고 예약하는 전 과정을 ChatGPT가 대신 처리하게 합니다. <span class="new-badge">NEW</span>
+                    </li>
+                    <li>
+                        <strong>코딩 및 개발 작업 지원:</strong> GitHub 웹훅과 연동하여 코드 리뷰를 자동화하고, 특정 조건(예: 버그 발생) 발생 시 Slack으로 즉시 알림을 받거나, GitHub 이슈를 자동 생성하도록 설정합니다. <span class="new-badge">NEW</span>
+                    </li>
+                    <li>
+                        <strong>개인화된 학습 도구 활용:</strong> 대화형 퀴즈 기능을 통해 어떤 학습 콘텐츠든 개인 맞춤형 질문으로 변환하여 능동적인 학습을 유도하고, Linux 데스크톱 앱을 통해 학습 접근성을 확장합니다. <span class="new-badge">NEW</span>
+                    </li>
+                </ol>
+            </div>
+        </div>
+
+        <!-- Slide 8: 핵심메시지 (s-accent) -->
+        <div class="slide centered s-accent">
+            <div class="s-label">핵심 메시지</div>
+            <h2 class="s-title">ChatGPT, <br>당신의 모든 업무를 혁신하다.</h2>
+            <div class="s-body">
+                <p class="t-main">
+                    2026년 8월, ChatGPT는 단순한 AI 챗봇을 넘어 웹 통합, 자동화, <br>
+                    그리고 개인화된 AI 에이전트로서의 면모를 갖추게 되었습니다. <br>
+                    이제 당신의 일상과 업무는 더욱 스마트하고 효율적으로 변화할 것입니다.
+                </p>
+            </div>
+        </div>
+
+        <!-- Slide 9: 출처모음 (s-gradient centered) -->
+        <div class="slide centered s-gradient">
+            <div class="s-label">출처</div>
+            <h2 class="s-title">참고 자료</h2>
+            <div class="s-body">
+                <p class="t-main">
+                    <a href="https://releasebot.io/updates/openai/chatgpt" target="_blank" style="color: inherit; text-decoration: underline;">https://releasebot.io/updates/openai/chatgpt</a>
+                    <span class="t-sub dim" style="display: block; margin-top: 8px;">(2026-08-27)</span>
+                </p>
+                <p class="t-sub dim" style="margin-top: 20px; max-width: 100%;">
+                    본 자료는 2026년 8월 ChatGPT 업데이트 내용을 기반으로 제작되었습니다.
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <div class="source-bar">
+        <span style="opacity: .6;">출처:</span> https://releasebot.io/updates/openai/chatgpt
+    </div>
+
+    <script>
+        (function(){const slides=document.querySelectorAll('.slide');const dots=document.querySelectorAll('.nav-dot');const numEl=document.getElementById('slideNum');let cur=0;function go(n){if(n<0||n>=slides.length)return;slides[cur].classList.remove('active');dots[cur]?.classList.remove('active');document.body.classList.toggle('light-slide',['s-white','s-light','s-coral'].some(c=>slides[n].classList.contains(c)));cur=n;slides[cur].classList.add('active');dots[cur]?.classList.add('active');if(numEl)numEl.textContent=(cur+1)+' / '+slides.length;}dots.forEach((d,i)=>d.addEventListener('click',()=>go(i)));document.addEventListener('keydown',e=>{if(e.key==='ArrowRight'||e.key==='ArrowDown')go(cur+1);else if(e.key==='ArrowLeft'||e.key==='ArrowUp')go(cur-1);});go(0);})();
+    </script>
+</body>
+</html>
