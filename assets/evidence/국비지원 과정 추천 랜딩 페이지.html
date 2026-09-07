@@ -1,0 +1,1006 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>모두의연구소 | K-디지털 기초역량훈련</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css">
+    <style>
+        :root {
+            --primary-color: #3B308B;
+            /* Modulabs Deep Purple */
+            --primary-light: #F4F3FF;
+            --accent-color: #6355D8;
+            --text-main: #1A1A1A;
+            --text-sub: #666666;
+            --bg-gray: #F8F9FA;
+            --border-color: #EEEEEE;
+            --max-width: 1100px;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            letter-spacing: -0.02em;
+        }
+
+        body {
+            font-family: 'Pretendard', -apple-system, sans-serif;
+            background-color: #ffffff;
+            color: var(--text-main);
+            line-height: 1.6;
+        }
+
+        /* GNB 스타일 */
+        header {
+            width: 100%;
+            height: 64px;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: sticky;
+            top: 0;
+            background: #fff;
+            z-index: 1000;
+        }
+
+        .nav-container {
+            width: 100%;
+            max-width: var(--max-width);
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+        }
+
+        .logo svg {
+            height: 26px;
+            width: auto;
+        }
+
+        /* GNB 링크 텍스트 스타일 */
+        .header-links a {
+            color: inherit;
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+
+        .header-links a:hover {
+            color: var(--primary-color);
+        }
+
+        /* 히어로 섹션 */
+        .hero-section {
+            padding: 80px 20px;
+            text-align: center;
+            background: linear-gradient(to bottom, #ffffff, var(--bg-gray));
+        }
+
+        .hero-section .badge {
+            display: inline-block;
+            padding: 6px 14px;
+            background: var(--primary-light);
+            color: var(--primary-color);
+            border-radius: 4px;
+            font-weight: 700;
+            font-size: 14px;
+            margin-bottom: 20px;
+        }
+
+        .hero-section h1 {
+            font-size: 42px;
+            font-weight: 800;
+            margin-bottom: 16px;
+            line-height: 1.3;
+        }
+
+        .hero-section p {
+            font-size: 18px;
+            color: var(--text-sub);
+        }
+
+        /* 메인 추천 섹션 */
+        .recommend-section {
+            padding: 60px 20px 100px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background-color: var(--bg-gray);
+        }
+
+        .survey-wrapper {
+            width: 100%;
+            max-width: 540px;
+        }
+
+        #survey-container {
+            width: 100%;
+            background: #ffffff;
+            padding: 45px 35px;
+            border-radius: 16px;
+            box-shadow: 0 20px 60px rgba(59, 48, 139, 0.08);
+            border: 1px solid var(--border-color);
+        }
+
+        .progress-container {
+            width: 100%;
+            height: 6px;
+            background: #E9ECEF;
+            border-radius: 10px;
+            margin-bottom: 40px;
+            overflow: hidden;
+        }
+
+        #progress-bar {
+            width: 25%;
+            height: 100%;
+            background: var(--accent-color);
+            transition: width 0.4s ease;
+        }
+
+        .step-container {
+            display: none;
+        }
+
+        .step-container.active {
+            display: block;
+            animation: fadeIn 0.4s ease;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        .tag {
+            display: inline-block;
+            font-size: 13px;
+            color: var(--primary-color);
+            background: var(--primary-light);
+            padding: 4px 10px;
+            border-radius: 4px;
+            font-weight: 700;
+            margin-bottom: 15px;
+        }
+
+        h2 {
+            font-size: 24px;
+            margin-bottom: 12px;
+            font-weight: 700;
+            color: var(--primary-color);
+            line-height: 1.4;
+        }
+
+        .options-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .option-item {
+            border: 1px solid var(--border-color);
+            padding: 18px 20px;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-weight: 500;
+            font-size: 16px;
+        }
+
+        .option-item:hover {
+            border-color: var(--primary-color);
+            background: var(--primary-light);
+            color: var(--primary-color);
+        }
+
+        .back-btn {
+            margin-top: 24px;
+            color: #ADB5BD;
+            font-size: 14px;
+            cursor: pointer;
+            text-decoration: underline;
+            background: none;
+            border: none;
+            display: block;
+        }
+
+        .cta-button {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-top: 24px;
+            background: var(--primary-color);
+            color: white;
+            padding: 18px;
+            border-radius: 10px;
+            text-decoration: none;
+            font-weight: 700;
+            width: 100%;
+            transition: opacity 0.2s;
+        }
+
+        .cta-button:hover {
+            opacity: 0.9;
+        }
+
+        /* 하단 부가 버튼 */
+        .extra-buttons-wrapper {
+            margin-top: 16px;
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .extra-btn {
+            flex: 1 1 calc(33.333% - 10px);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 14px 12px;
+            background: #ffffff;
+            color: var(--primary-color);
+            border: 1px solid var(--primary-color);
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 14px;
+            transition: all 0.2s;
+            text-align: center;
+            word-break: keep-all;
+        }
+
+        .extra-btn:hover {
+            background: var(--primary-light);
+        }
+
+        /* 결과 카드 & 썸네일 영역 */
+        .result-card {
+            background: #ffffff;
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+            overflow: hidden;
+            text-align: left;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
+        }
+
+        .result-card-thumb {
+            width: 100%;
+            background: linear-gradient(135deg, var(--primary-light) 0%, #e8e6ff 100%);
+            display: flex;
+            transition: opacity 0.2s;
+        }
+
+        .result-card-thumb:hover {
+            opacity: 0.9;
+        }
+
+        .result-card-thumb img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        /* 링크 호버 이펙트 */
+        .result-title-link {
+            text-decoration: none;
+        }
+
+        .result-title-link h4:hover {
+            text-decoration: underline;
+        }
+
+        /* 하단 안내 박스 스타일 */
+        .notice-box {
+            margin-top: 16px;
+            padding: 14px 16px;
+            background-color: var(--bg-gray);
+            border-radius: 8px;
+            font-size: 13.5px;
+            color: var(--text-sub);
+            text-align: left;
+            display: flex;
+            gap: 8px;
+            align-items: flex-start;
+            word-break: keep-all;
+            line-height: 1.5;
+        }
+
+        /* --- 하단 확장 섹션 (박스 외부 영역) --- */
+        #extended-result {
+            width: 100%;
+            max-width: var(--max-width);
+            margin-top: 60px;
+            animation: fadeIn 0.6s ease;
+        }
+
+        /* 수강생 후기 (Social Proof) 넓은 화면 스타일 */
+        .review-section {
+            margin-bottom: 60px;
+        }
+
+        .review-section h3 {
+            font-size: 24px;
+            color: var(--text-main);
+            font-weight: 800;
+            margin-bottom: 24px;
+            text-align: center;
+        }
+
+        .review-grid-container {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+        }
+
+        .review-card {
+            background: #ffffff;
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 24px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.02);
+            height: 100%;
+        }
+
+        .review-text {
+            font-size: 14px;
+            color: var(--text-main);
+            margin-bottom: 20px;
+            word-break: keep-all;
+            line-height: 1.6;
+        }
+
+        .review-author {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            border-top: 1px dashed var(--border-color);
+            padding-top: 16px;
+        }
+
+        .author-icon {
+            width: 36px;
+            height: 36px;
+            background: var(--bg-gray);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            flex-shrink: 0;
+        }
+
+        .author-info {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+            overflow: hidden;
+        }
+
+        .course-name {
+            font-size: 11px;
+            color: #E86B45;
+            font-weight: 700;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            width: 100%;
+        }
+
+        .author-name {
+            font-size: 12px;
+            color: var(--text-sub);
+            font-weight: 500;
+        }
+
+        /* FAQ 넓은 화면 중앙 정렬 스타일 */
+        .faq-section {
+            max-width: 800px;
+            margin: 0 auto;
+            background: #ffffff;
+            padding: 40px;
+            border-radius: 16px;
+            border: 1px solid var(--border-color);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.02);
+        }
+
+        .faq-section h3 {
+            font-size: 24px;
+            color: var(--text-main);
+            font-weight: 800;
+            margin-bottom: 24px;
+            text-align: center;
+        }
+
+        .faq-item {
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .faq-item:last-child {
+            border-bottom: none;
+        }
+
+        .faq-item summary {
+            padding: 20px 0;
+            font-weight: 600;
+            font-size: 16px;
+            color: var(--text-main);
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            list-style: none;
+            outline: none;
+        }
+
+        .faq-item summary::-webkit-details-marker {
+            display: none;
+        }
+
+        .faq-item .icon {
+            font-size: 22px;
+            color: var(--primary-color);
+            font-weight: 400;
+            transition: transform 0.3s ease;
+        }
+
+        .faq-item[open] .icon {
+            transform: rotate(45deg);
+        }
+
+        .faq-content {
+            padding-bottom: 24px;
+            font-size: 15px;
+            color: var(--text-sub);
+            line-height: 1.6;
+            word-break: keep-all;
+        }
+
+        footer {
+            padding: 40px 20px;
+            text-align: center;
+            font-size: 14px;
+            color: #adb5bd;
+            border-top: 1px solid var(--border-color);
+            margin-top: 60px;
+        }
+
+        /* 모바일 반응형 미디어 쿼리 */
+        @media (max-width: 992px) {
+            .review-grid-container {
+                display: flex;
+                overflow-x: auto;
+                padding-bottom: 16px;
+                scrollbar-width: thin;
+                scrollbar-color: #dcdcdc transparent;
+                scroll-snap-type: x mandatory;
+            }
+
+            .review-grid-container::-webkit-scrollbar {
+                height: 6px;
+            }
+
+            .review-grid-container::-webkit-scrollbar-thumb {
+                background-color: #dcdcdc;
+                border-radius: 10px;
+            }
+
+            .review-card {
+                flex: 0 0 280px;
+                scroll-snap-align: start;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .hero-section h1 {
+                font-size: 32px;
+            }
+
+            #survey-container {
+                padding: 30px 20px;
+            }
+
+            .extra-btn {
+                flex: 1 1 100%;
+            }
+
+            .faq-section {
+                padding: 24px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <div class="nav-container">
+            <a href="https://class.modulabs.co.kr/nbclass" class="logo" target="_blank">
+                <svg width="81" height="32" viewBox="0 0 81 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M0 29.5789H4.79686V27.2304H0.865776V20.2426H11.1232V27.2304H7.19211V29.5789H11.989V31.6721H0V29.5789ZM8.7237 25.1373V22.3336H3.26527V25.1373H8.72583H8.7237Z" fill="#F7585C"></path>
+                    <path d="M25.0841 28.9216H20.2872V31.8529H17.8899V28.9216H13.093V26.8284H25.082V28.9216H25.0841ZM24.2906 22.0422H16.1732V23.7354H24.3991V25.7754H13.7758V20.0064H24.2906V22.0464V22.0422Z" fill="#F7585C"></path>
+                    <path d="M35.1947 30.1958L26.2689 30.7042L26.0307 28.5387L35.0331 28.0494L35.199 30.1979H35.1969L35.1947 30.1958ZM32.491 18.628C33.0739 19.0088 33.5312 19.547 33.8546 20.2383C34.1822 20.9318 34.3417 21.738 34.3417 22.6591C34.3417 23.5802 34.1779 24.3523 33.8546 25.0437C33.527 25.7371 33.0739 26.2732 32.491 26.654C31.9082 27.0347 31.2402 27.2283 30.4915 27.2283C29.7427 27.2411 29.0833 27.0539 28.5174 26.6731C27.9516 26.2923 27.5049 25.7542 27.1815 25.0628C26.8539 24.3693 26.6944 23.5716 26.6944 22.6612C26.6944 21.7507 26.8582 20.9318 27.1815 20.2404C27.5091 19.547 27.9516 19.0109 28.5174 18.6301C29.0833 18.2494 29.7427 18.0558 30.4915 18.0558C31.2402 18.0558 31.9082 18.2472 32.491 18.6301V18.628ZM31.8912 22.6591C31.8912 22.0294 31.7933 21.4934 31.5955 21.0594C31.4849 20.7786 31.3275 20.5744 31.1254 20.4404C30.9233 20.3085 30.7106 20.2404 30.4893 20.2404C30.2681 20.2404 30.0596 20.3085 29.8618 20.4404C29.664 20.5744 29.5044 20.7807 29.3811 21.0594C29.196 21.4955 29.1045 22.0294 29.1045 22.6591C29.1045 23.2887 29.1981 23.8014 29.3811 24.2226C29.5023 24.4906 29.664 24.6927 29.8618 24.8331C30.0596 24.9735 30.266 25.0437 30.4893 25.0437C30.7127 25.0437 30.9233 24.9735 31.1254 24.8331C31.3275 24.6927 31.487 24.4906 31.5955 24.2226C31.7933 23.7737 31.8912 23.2526 31.8912 22.6591ZM38.2005 17.7644V31.8529H35.6372L35.6925 17.7644H38.2005Z" fill="#F7585C"></path>
+                    <path d="M46.8774 18.3004C47.0667 19.0109 47.1624 19.7342 47.1624 20.4744C47.1624 21.2764 47.0688 22.0124 46.8859 22.6867C46.7008 23.361 46.4328 23.9354 46.0733 24.4076C45.7287 24.8799 45.3245 25.2351 44.8565 25.4712C44.3885 25.7074 43.8844 25.8265 43.3441 25.8265C42.8038 25.8265 42.2954 25.7074 41.821 25.4712C41.3466 25.2351 40.9446 24.8799 40.6127 24.4076C40.2554 23.946 39.9852 23.3759 39.8001 22.6952C39.6151 22.0145 39.5236 21.2764 39.5236 20.4744C39.5236 19.6725 39.6172 18.9364 39.8001 18.2621C39.9852 17.5878 40.2532 17.0134 40.6127 16.5412C40.9446 16.0562 41.3445 15.6988 41.8104 15.467C42.2784 15.2351 42.7889 15.1138 43.342 15.1032C43.8844 15.0904 44.3864 15.2074 44.8544 15.4478C45.3224 15.6924 45.7287 16.0541 46.0712 16.5391C46.4158 17.0007 46.6838 17.5835 46.8731 18.2962H46.8774V18.3004ZM51.9423 29.5959V31.8529H41.67V26.939H44.2141V29.5959H51.9423ZM44.8416 20.4787C44.8416 19.581 44.6991 18.8514 44.4162 18.294C44.2822 18.026 44.1205 17.826 43.9354 17.692C43.7504 17.5601 43.5547 17.4921 43.3441 17.4921C42.8995 17.4921 42.5443 17.7601 42.2762 18.294C42.0061 18.8641 41.8721 19.5938 41.8721 20.4787C41.8721 21.3636 42.0061 22.0868 42.2762 22.6442C42.4102 22.9122 42.5719 23.1143 42.757 23.2547C42.942 23.3951 43.1377 23.4653 43.3483 23.4653C43.5589 23.4653 43.7525 23.3951 43.9397 23.2547C44.1248 23.1143 44.2843 22.9122 44.4205 22.6442C44.7034 22.0868 44.8459 21.3657 44.8459 20.4787H44.8416ZM47.9218 23.1526V20.8956H49.2684V19.8937H47.9218V17.6367H49.2684V14.7607H51.7764V27.1922H49.2854L49.2662 23.1505H47.9197L47.9218 23.1526Z" fill="#F7585C"></path>
+                    <path d="M64.7056 24.48H65.9585V26.7731H60.9787V31.8529H58.3579V26.7731H53.1569V24.48H62.0827V14.5416H54.0589V12.2293H64.7034V24.4778H64.7056V24.48Z" fill="#F7585C"></path>
+                    <path d="M66.2435 31.6721V28.9429H72.238V21.6976H75.0055V28.9429H81V31.6721H66.2435ZM69.5726 17.4729C70.2916 16.5391 70.8723 15.5244 71.3148 14.4331C71.67 13.5482 71.9104 12.3889 72.0338 10.9573C72.1551 9.52566 72.2189 8.11744 72.2189 6.73476V0H74.9864V6.73476C74.9864 7.93663 75.0715 9.28954 75.2459 10.7956C75.4161 12.2995 75.699 13.5142 76.0947 14.4353C76.5754 15.5627 77.1476 16.588 77.8198 17.5112C78.4899 18.4344 79.2812 19.1066 80.1917 19.5321L79.7109 22.4442C78.7281 22.24 77.773 21.638 76.8519 20.6403C75.9287 19.6469 75.1842 18.5046 74.6099 17.2177C74.0398 15.9307 73.7505 14.816 73.7505 13.8694V13.6525H73.5654V13.8694C73.5654 14.816 73.2697 15.9286 72.6805 17.2113C72.0891 18.4919 71.3254 19.632 70.3916 20.634C69.4577 21.6359 68.5111 22.24 67.5518 22.4442L67.071 19.5321C68.0176 19.096 68.8515 18.4089 69.5684 17.4751L69.5726 17.4729Z" fill="#F7585C"></path>
+                </svg>
+            </a>
+            <div class="header-links" style="font-size: 14px; font-weight: 600; color: var(--text-sub);">
+                <a href="https://member.modulabs.co.kr/signin?redirectUrl=https%3A%2F%2Fclass.modulabs.co.kr%2Fapi%2Fcallback%2Fmodulabs-auth%3FredirectUrl%3Dhttps%253A%252F%252Fclass.modulabs.co.kr%252Fnbclass&_gl=1*949jna*_gcl_au*NDE0NzU2MzYwLjE3NzI1MzQyMzguMTU5NzczNzk0NS4xNzc1MzAxNTYyLjE3NzUzMDE1NjE.*_ga*MTM2ODY2MjYwNS4xNzcyNTM0MjM4*_ga_5YVT7K6RHZ*czE3NzUzMDAwNTYkbzIwJGcxJHQxNzc1MzAxNjM5JGo0OCRsMCRoMA.."
+                    target="_blank">로그인 / 회원가입</a>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <section class="hero-section">
+            <div class="badge">K-디지털 기초역량훈련</div>
+            <h1>AI 교육만 10년 모두의연구소에서,<br>90% 국비지원으로 AI 커리어를 시작해 보세요!</h1>
+            <p>어떤 강의부터 시작할지 고민이라면?<br>1분 만에 진단받으세요.<br> </p>
+
+            <section class="recommend-section">
+                <div class="survey-wrapper">
+                    <div id="survey-container">
+                        <div class="progress-container" id="progress-container">
+                            <div id="progress-bar"></div>
+                        </div>
+
+                        <div class="step-container active" data-step="1">
+                            <span class="tag">STEP 01</span>
+                            <h2>지금 바로 해보고 싶은 것은 무엇인가요?</h2>
+                            <div class="options-list">
+                                <div class="option-item" onclick="nextStep(1, 'purpose', 'work')">💼 업무 효율화</div>
+                                <div class="option-item" onclick="nextStep(1, 'purpose', 'content')">🎨 콘텐츠 제작</div>
+                                <div class="option-item" onclick="nextStep(1, 'purpose', 'data')">📊 데이터 분석</div>
+                                <div class="option-item" onclick="nextStep(1, 'purpose', 'theory')">🧠 AI 이해 / 이론</div>
+                                <div class="option-item" onclick="nextStep(1, 'purpose', 'dev')">🛠 서비스 개발</div>
+                            </div>
+                        </div>
+
+                        <div class="step-container" data-step="2">
+                            <span class="tag">STEP 02</span>
+                            <h2>현재 수준은 어디에 가깝나요?</h2>
+                            <div class="options-list">
+                                <div class="option-item" onclick="nextStep(2, 'level', 'beginner')">🐣 입문<br>(AI를 거의 처음
+                                    접하거나, 사용 경험이 거의 없는 단계)</div>
+                                <div class="option-item" onclick="nextStep(2, 'level', 'intermediate')">🙂 기초<br>(AI 사용
+                                    경험은 있지만, 실무에 활용해본 경험은 적은 단계)</div>
+                                <div class="option-item" onclick="nextStep(2, 'level', 'advanced')">💻 실무<br>(AI를 활용하고
+                                    있으며 고급 활용 방법이 필요한 단계)</div>
+                            </div>
+                            <button class="back-btn" onclick="prevStep(2)">이전 질문으로</button>
+                        </div>
+
+                        <div class="step-container" data-step="3">
+                            <span class="tag">STEP 03</span>
+                            <h2>최종적으로 이루고 싶은 목표는 무엇인가요?</h2>
+                            <div class="options-list">
+                                <div class="option-item" onclick="processResult('productivity')">🚀 생산성 향상</div>
+                                <div class="option-item" onclick="processResult('contents')">🎬 콘텐츠 제작</div>
+                                <div class="option-item" onclick="processResult('data_skill')">📈 데이터 역량</div>
+                                <div class="option-item" onclick="processResult('maker')">🛠 AI 서비스 개발</div>
+                            </div>
+                            <button class="back-btn" onclick="prevStep(3)">이전 질문으로</button>
+                        </div>
+
+                        <div id="loading-page" style="display:none; text-align:center; padding: 30px 0;">
+                            <div
+                                style="width:40px; height:40px; border:4px solid var(--primary-light); border-top:4px solid var(--primary-color); border-radius:50%; animation:spin 1s linear infinite; margin:auto;">
+                            </div>
+                            <h2 style="margin-top:20px;">맞춤 커리큘럼 분석 중...</h2>
+                        </div>
+
+                        <div id="result-page" style="display:none;">
+                            <span class="tag">MATCHED</span>
+                            <h2>연구원님께 딱 맞는 강의를 찾았습니다!</h2>
+
+                            <div id="recommendation-result" style="margin-top:20px;"></div>
+
+                            <div class="notice-box">
+                                <span>❗</span>
+                                <span>추천해 드린 강의는 연구원님의 응답을 바탕으로 AI 추천 후 구성되었습니다.<br>최종 수강 결정 전, 상세페이지를 꼭 한 번 더 확인해 보시는
+                                    것을 권장해드려요!</span>
+                            </div>
+
+                            <a id="result-link" href="#" target="_blank" class="cta-button">해당 강의 바로가기</a>
+
+                            <div class="extra-buttons-wrapper">
+                                <a href="https://class.modulabs.co.kr/nbclass" target="_blank" class="extra-btn">전체 강의
+                                    보러가기</a>
+                                <a href="https://service.modulabs.co.kr/r/6QRi5aWg" target="_blank"
+                                    class="extra-btn">국비지원 신청 가이드</a>
+                                <a href="https://service.modulabs.co.kr/r/t6pvYshC" target="_blank"
+                                    class="extra-btn">학습실 가이드</a>
+                            </div>
+
+                            <button class="back-btn" style="margin: 24px auto 0;" onclick="location.reload()">다시
+                                하기</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="extended-result" style="display:none;">
+
+                    <div class="review-section">
+                        <h3>이런 점이 좋았어요.</h3>
+                        <div class="review-grid-container">
+                            <div class="review-card">
+                                <div class="review-text">"오프라인 학원에서 듣지 못한 실질적인 내용들이었습니다. 유튜브 운영 방법과 다양한 AI 툴을 알려주셔서 실제
+                                    운영에 바로 적용할 수 있을 것 같아요."</div>
+                                <div class="review-author">
+                                    <div class="author-icon">👩🏻</div>
+                                    <div class="author-info">
+                                        <span class="course-name">챗GPT로 인싸 크리에이터 되는 법</span>
+                                        <span class="author-name">김**</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="review-card">
+                                <div class="review-text">"AI 툴을 하나도 모르는 초보자를 위한 상세한 강의가 만족스러웠습니다. 여러 예시를 통해 어렵지 않게 설명해
+                                    주셔서 쉽게 따라할 수 있었어요~!"</div>
+                                <div class="review-author">
+                                    <div class="author-icon">👩🏻‍💻</div>
+                                    <div class="author-info">
+                                        <span class="course-name">생성형 AI를 활용한 15초 광고...</span>
+                                        <span class="author-name">박**</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="review-card">
+                                <div class="review-text">"사족 없이 핵심만 알려주는 강의였습니다. 알아듣기 쉬운 설명과 적당한 강의 속도 덕분에 SQL 개념을 확실하게
+                                    잡을 수 있었고, 온라인에서 직접 실습하며 문제를 풀어볼 수 있어서 좋았습니다."</div>
+                                <div class="review-author">
+                                    <div class="author-icon">👩🏻‍🏫</div>
+                                    <div class="author-info">
+                                        <span class="course-name">파이썬으로 시작하는 SQL 기초 문법</span>
+                                        <span class="author-name">한**</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="review-card">
+                                <div class="review-text">"AI 관련 지식이 전혀 없던 제게 SQL이 무엇이고 어떤 목적으로 사용하는지 이해할 수 있게 해줬습니다.
+                                    시험으로 수업 내용을 다시 한번 복습할 수 있어서 좋았습니다."</div>
+                                <div class="review-author">
+                                    <div class="author-icon">🧑🏻</div>
+                                    <div class="author-info">
+                                        <span class="course-name">파이썬으로 시작하는 SQL 기초 문법</span>
+                                        <span class="author-name">최**</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="review-card">
+                                <div class="review-text">"이미지 생성뿐만 아니라 음악 및 영상 편집 등 쇼츠 제작을 위한 전반적인 과정을 자세히 배울 수 있어
+                                    좋았습니다. 다양한 AI 플랫폼과 활용법을 알게 되었어요."</div>
+                                <div class="review-author">
+                                    <div class="author-icon">🙋🏻‍♀️</div>
+                                    <div class="author-info">
+                                        <span class="course-name">생성형 AI를 활용한 15초 ...</span>
+                                        <span class="author-name">남**</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="review-card">
+                                <div class="review-text">"챗GPT를 효과적으로 활용하는 방법을 배웠습니다. 막연하게 알고 있던 프롬프트를 엔지니어링할 수 있다는 것을
+                                    배우게 된 것이 가장 큰 성과입니다."</div>
+                                <div class="review-author">
+                                    <div class="author-icon">👨🏻‍🏫</div>
+                                    <div class="author-info">
+                                        <span class="course-name">프롬프트 엔지니어링 A to Z</span>
+                                        <span class="author-name">방**</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="review-card">
+                                <div class="review-text">"프롬프트의 중요성 인식부터 결과물을 도출하기 위한 템플릿까지 너무 도움이 되었습니다. 특히 전자책 제작 및
+                                    퍼스널 브랜딩, 쇼츠, 릴스 제작 부분이 좋았어요!"</div>
+                                <div class="review-author">
+                                    <div class="author-icon">🧑🏻‍💻</div>
+                                    <div class="author-info">
+                                        <span class="course-name">프롬프트 엔지니어링 A to Z</span>
+                                        <span class="author-name">박**</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="review-card">
+                                <div class="review-text">"클라우드 환경을 통한 편리한 실습 환경이 만족스러웠습니다. 다양한 예시 코드로 쉽고 직관적으로 이해할 수
+                                    있었고, 마지막 class 부분은 내용의 깊이도 꽤 있어서 좋았어요."</div>
+                                <div class="review-author">
+                                    <div class="author-icon">👨🏻</div>
+                                    <div class="author-info">
+                                        <span class="course-name">잘란다 파이썬</span>
+                                        <span class="author-name">류**</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="faq-section">
+                        <h3>자주 묻는 질문</h3>
+
+                        <details class="faq-item">
+                            <summary>
+                                <span>[수강] 학습 중 궁금한 점이 있어요!</span>
+                                <span class="icon">+</span>
+                            </summary>
+                            <div class="faq-content">
+                                학습 내용과 관련한 질문 사항이 발생했을 경우,<br>
+                                아래 양식을 참고하여 '채널톡'에 남겨주시면 확인 후 순차적으로 답변드릴 예정입니다.<br>
+                                질문 사항은 정규 학습 기간 동안에만 답변이 가능한 점 안내드립니다.<br><br>
+                                1️⃣ 성함 :<br>
+                                2️⃣ 과정명 :<br>
+                                3️⃣ 몇-몇 스텝 : ex)3-4스텝<br>
+                                4️⃣ 질문에 필요한 화면을 캡쳐하여 첨부하셔도 됩니다.
+                            </div>
+                        </details>
+
+                        <details class="faq-item">
+                            <summary>
+                                <span>[수강] 수료 혜택이 있나요?</span>
+                                <span class="icon">+</span>
+                            </summary>
+                            <div class="faq-content">
+                                국비지원 교육은 수강기간 내 80% 진도율 달성 시 수료가 인정되며, 100% 달성 시 평생 복습권도 제공하고 있습니다.<br>
+                                또한 복습권은 수강 기간 이후 [학습실]→[내 과정]에서 복습 가능하시니, 이 점 참고 부탁드립니다. <br>
+                                (단, 복습 시 클라우드 실습 환경은 제공되지 않습니다.)
+                            </div>
+                        </details>
+
+                        <details class="faq-item">
+                            <summary>
+                                <span>[수강] "비전공자도 정말 가능한가요?"</span>
+                                <span class="icon">+</span>
+                            </summary>
+                            <div class="faq-content">
+                                AI를 처음 접하시는 비전공자분들도 충분히 수강하실 수 있도록,<br>
+                                기초부터 차근차근 학습하실 수 있는 커리큘럼으로 구성되어 있습니다.<br>
+                                <br>
+                                또한 코딩 경험이 전혀 없으신 분들부터<br>기존에 개발을 접해보신 분들까지 모두 참여 가능하도록 난이도별 강의가 준비되어 있어 수준에 맞게 학습이
+                                가능합니다.<br>
+                                <br>
+                                따라서 관련 경험이 없으시더라도 너무 걱정하지 않으셔도 됩니다.
+                            </div>
+                        </details>
+
+                        <details class="faq-item">
+                            <summary>
+                                <span>[수강] 수강은 어디서 하나요? 또 수강 방식은 어떻게 되나요?</span>
+                                <span class="icon">+</span>
+                            </summary>
+                            <div class="faq-content">
+                                수강은 신청한 과정 개강일부터 모두의연구소 로그인 → 학습실 → 내 과정에서 학습하실 수 있습니다.<br><br>
+                                ✅ 수강 방식<br>
+                                : 국비지원 온라인 과정은 실시간이 아닌 VOD(영상)형 과정입니다.<br>따라서 별도 시간표 없이 수강기간 내 편하신 시간에 자유롭게 수강해 주세요.
+                            </div>
+                        </details>
+
+                        <details class="faq-item">
+                            <summary>
+                                <span>[결제] 결제는 어떻게 하나요?</span>
+                                <span class="icon">+</span>
+                            </summary>
+                            <div class="faq-content">
+                                국비지원 과정의 경우 ’내일배움카드’로 결제 가능 합니다.<br><br>
+                                ✅ 결제 방법 안내<br>
+                                : 발급받으신 ‘내일배움카드’와 연결된 계좌에 자부담금을 입금 후, 카드결제 진행해주시면 결제 가능합니다.<br><br>
+                                ⭐국민취업지원제도 참여자도 자비부담금 결제 필수⭐<br><br>
+                                ✅ 개인카드로 잘못 결제한 경우<br>
+                                : 채널톡에 ‘<strong>성함/결제 과정명</strong>’남겨주시면 확인 후 환불 및 내일배움카드 재결제 안내 도움 드리도록 하겠습니다.<br><br>
+                                ✅ 환불 소요 기간<br>
+                                : 환불 처리 후 영업일 기준 3~5일 이내 결제하신 수단으로 환불이 완료됩니다.<br>
+                                결제 과정에서 어려움이 있으시다면 👉 결제시스템 이용 가이드를 함께 참고해 주세요.
+                            </div>
+                        </details>
+
+                        <details class="faq-item">
+                            <summary>
+                                <span>[국비 행정] 과정참여확인서, 수료증, 출석부는 어디서 발급받을 수 있나요?</span>
+                                <span class="icon">+</span>
+                            </summary>
+                            <div class="faq-content">
+                                수료 처리 완료 후, <strong>[학습실 → 인증 · 증명서]</strong>에서 직접 발급하실 수 있습니다.<br>
+                                내용은 임의 수정이 불가하오니 양해 부탁드립니다.
+                            </div>
+                        </details>
+                    </div>
+
+                </div>
+            </section>
+    </main>
+
+    <footer>
+        <p>© 2026 Modulabs. All rights reserved.</p>
+    </footer>
+
+    <script>
+        let answers = { purpose: '', level: '', goal: '' };
+
+        // 11개 핵심 코스 데이터 적용 완료
+        const courseData = {
+            L1: { title: "[첫걸음] 일상부터 업무까지: ChatGPT와 친해지기", url: "https://service.modulabs.co.kr/r/7s9B0gEZ", thumb: "https://resources-public-prd.modulabs.co.kr/class/images/937f3831-3374-4851-8341-8baf8d515ac3.jpg" },
+            L2: { title: "생성형 AI를 활용한 15초 광고(숏폼) 만들기", url: "https://service.modulabs.co.kr/r/4wrHCFzd", thumb: "https://resources-public-prd.modulabs.co.kr/class/images/a1a24780-a952-4d1e-9091-0c9c3d6989b0.png" },
+            L3: { title: "[AI 능력자] AI로 시작하는 콘텐츠 크리에이터", url: "https://service.modulabs.co.kr/r/Mhj4TrQb", thumb: "https://resources-public-prd.modulabs.co.kr/class/images/8c329a36-be2d-410c-b2be-f7b433f32387.jpg" },
+            L4: { title: "[첫걸음] 데이터를 보는 눈, 파이썬으로 배우는 통계 기초", url: "https://service.modulabs.co.kr/r/-c8NTiXF", thumb: "https://resources-public-prd.modulabs.co.kr/class/images/f2f336b3-2c64-417e-b927-f97f9f9ac668.jpg" },
+            L5: { title: "[첫걸음] 기본부터 탄탄하게, 파이썬 데이터 분석 첫 만남", url: "https://service.modulabs.co.kr/r/KmfbgwZQ", thumb: "https://resources-public-prd.modulabs.co.kr/class/images/cd1e09d1-b538-4b54-94c6-88d0950c35fa.jpg" },
+            L6: { title: "상위 1% 일잘러를 위한 고급 프롬프트 엔지니어링", url: "https://service.modulabs.co.kr/r/z2ShDcth", thumb: "https://resources-public-prd.modulabs.co.kr/class/images/b8d30fad-fcb0-4aa2-aa24-24cd7a51a31e.png" },
+            L7: { title: "[AI 능력자] 바이브 코딩 with Cursor: 챗봇, DB 배포까지", url: "https://service.modulabs.co.kr/r/oMjw_smL", thumb: "https://resources-public-prd.modulabs.co.kr/class/images/c3b889aa-bb9a-4be9-aad9-e0d72869b5d1.jpg" },
+            L8: { title: "[왕초보] 비개발자도 할 수 있는 바이브 코딩 웹 개발", url: "https://service.modulabs.co.kr/r/kJoK2DYs", thumb: "https://resources-public-prd.modulabs.co.kr/class/images/c3a06b19-9ae9-4fcb-91e2-52a31e3d8385.jpg" },
+            L9: { title: "[AI 능력자] 비개발자도 할 수 있는 바이브 코딩 업무 자동화", url: "https://service.modulabs.co.kr/r/Tfs4weJ9", thumb: "https://resources-public-prd.modulabs.co.kr/class/images/0b1565a3-94d4-4d3d-aefb-d64ee1e984c8.jpg" },
+            L10: { title: "AI by Hand: 내 손으로 이해하는 딥러닝 기초수학", url: "https://service.modulabs.co.kr/r/I4JFXpQS", thumb: "https://resources-public-prd.modulabs.co.kr/class/images/a7b09116-d2be-4e8d-9cad-d052d4bba9d4.png" },
+            L11: { title: "AI와 함께 코딩하자! 인공지능/데이터 커리어 첫걸음", url: "https://service.modulabs.co.kr/r/eujvSgir", thumb: "https://resources-public-prd.modulabs.co.kr/class/images/0db370b8-95af-40a7-9232-c9f86e647bff.png" }
+        };
+
+        function nextStep(currentStep, key, value) {
+            answers[key] = value;
+            document.querySelector(`[data-step="${currentStep}"]`).classList.remove('active');
+            const next = document.querySelector(`[data-step="${currentStep + 1}"]`);
+            if (next) {
+                next.classList.add('active');
+                document.getElementById('progress-bar').style.width = ((currentStep + 1) / 3 * 100) + '%';
+            }
+        }
+
+        function prevStep(currentStep) {
+            document.querySelector(`[data-step="${currentStep}"]`).classList.remove('active');
+            const prev = document.querySelector(`[data-step="${currentStep - 1}"]`);
+            if (prev) {
+                prev.classList.add('active');
+                document.getElementById('progress-bar').style.width = ((currentStep - 1) / 3 * 100) + '%';
+            }
+        }
+
+        function processResult(goal) {
+            answers.goal = goal;
+            document.querySelector(`[data-step="3"]`).classList.remove('active');
+            document.getElementById('progress-container').style.display = 'none';
+            document.getElementById('loading-page').style.display = 'block';
+
+            setTimeout(() => {
+                document.getElementById('loading-page').style.display = 'none';
+
+                // 설문 박스 안의 결과 노출
+                document.getElementById('result-page').style.display = 'block';
+                // 박스 밖의 넓은 확장 영역(후기, FAQ) 노출
+                document.getElementById('extended-result').style.display = 'block';
+
+                showResultCard();
+            }, 1200);
+        }
+
+        // Q1 + Q2 기반 1차 강의 추천 매핑 로직
+        function getCourse1(purpose, level) {
+            if (purpose === 'work') {
+                if (level === 'beginner') return 'L1';
+                if (level === 'intermediate') return 'L9';
+                if (level === 'advanced') return 'L6';
+            }
+            if (purpose === 'content') {
+                if (level === 'beginner') return 'L3';
+                if (level === 'intermediate') return 'L2';
+                if (level === 'advanced') return 'L6';
+            }
+            if (purpose === 'data') {
+                if (level === 'beginner') return 'L5';
+                if (level === 'intermediate') return 'L4';
+                if (level === 'advanced') return 'L7';
+            }
+            if (purpose === 'theory') {
+                if (level === 'beginner') return 'L1';
+                if (level === 'intermediate') return 'L6';
+                if (level === 'advanced') return 'L10';
+            }
+            if (purpose === 'dev') {
+                if (level === 'beginner') return 'L8';
+                if (level === 'intermediate') return 'L11';
+                if (level === 'advanced') return 'L7';
+            }
+            return 'L1';
+        }
+
+        // 1차 강의 + Q3 기반 2차(다음 단계) 추천 매핑 로직
+        function getCourse2(course1, goal) {
+            const rules = {
+                'productivity': {
+                    'L1': 'L9', 'L2': 'L1', 'L3': 'L1', 'L5': 'L9', 'L4': 'L9',
+                    'L8': 'L9', 'L11': 'L9', 'L7': 'L6', 'L9': 'L6', 'L6': '', 'L10': 'L6'
+                },
+                'contents': {
+                    'L1': 'L3', 'L9': 'L3', 'L8': 'L3', 'L11': 'L3', 'L5': 'L3',
+                    'L4': 'L3', 'L3': 'L2', 'L2': 'L6'
+                },
+                'data_skill': {
+                    'L1': 'L5', 'L2': 'L5', 'L3': 'L5', 'L5': 'L4', 'L4': 'L7',
+                    'L9': 'L4', 'L6': 'L4', 'L8': 'L7', 'L11': 'L7'
+                },
+                'maker': {
+                    'L1': 'L8', 'L2': 'L8', 'L3': 'L8', 'L5': 'L8', 'L4': 'L8',
+                    'L8': 'L11', 'L11': 'L7', 'L9': 'L7', 'L6': 'L10', 'L7': 'L10'
+                }
+            };
+            return rules[goal][course1] || "";
+        }
+
+        function showResultCard() {
+            const recommendCode = getCourse1(answers.purpose, answers.level);
+            const nextCode = getCourse2(recommendCode, answers.goal);
+
+            const resultCourse = courseData[recommendCode];
+            const nextCourse = courseData[nextCode];
+
+            const resultDiv = document.getElementById('recommendation-result');
+
+            let roadmapHTML = "";
+            if (nextCourse) {
+                roadmapHTML = `
+                    <div style="background-color: var(--bg-gray); padding: 12px 16px; border-radius: 8px; font-size: 13.5px;">
+                        <b style="color:var(--primary-color); display:block; margin-bottom:4px;">💡 다음 추천 로드맵</b>
+                        <a href="${nextCourse.url}" target="_blank" style="color:var(--text-main); text-decoration:underline; cursor:pointer;">
+                            ${nextCourse.title}
+                        </a>
+                    </div>
+                `;
+            }
+
+            resultDiv.innerHTML = `
+                <div class="result-card">
+                    <a href="${resultCourse.url}" target="_blank" style="text-decoration: none; display: block;">
+                        <div class="result-card-thumb">
+                            <img src="${resultCourse.thumb}" alt="강의 썸네일">
+                        </div>
+                    </a>
+                    <div style="padding: 24px;">
+                        <a href="${resultCourse.url}" target="_blank" class="result-title-link">
+                            <h4 style="color:var(--primary-color); word-break: keep-all; line-height: 1.4; font-size: 1.15rem; margin-bottom: 12px;">
+                                ${resultCourse.title}
+                            </h4>
+                        </a>
+                        <p style="font-size:14px; color:var(--text-sub); margin-bottom: 16px;">
+                            연구원님의 현재 수준과 목적에 가장 최적화된 맞춤 강의입니다.
+                        </p>
+                        ${roadmapHTML}
+                    </div>
+                </div>
+            `;
+
+            document.getElementById('result-link').href = resultCourse.url;
+        }
+    </script>
+</body>
+
+</html>
