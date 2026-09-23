@@ -579,7 +579,7 @@
                             <h2>지금 바로 해보고 싶은 것은 무엇인가요?</h2>
                             <div class="options-list">
                                 <div class="option-item" onclick="nextStep(1, 'purpose', 'work')">💼 업무 효율화</div>
-                                <div class="option-item" onclick="nextStep(1, 'purpose', 'content')">🎨 콘텐츠 제작</div>
+                                <div class="option-item" onclick="nextStep(1, 'purpose', 'content')">💪 AI로 콘텐츠를 만들고 업무에 활용하기</div>
                                 <div class="option-item" onclick="nextStep(1, 'purpose', 'data')">📊 데이터 분석</div>
                                 <div class="option-item" onclick="nextStep(1, 'purpose', 'theory')">🧠 AI 이해 / 이론</div>
                                 <div class="option-item" onclick="nextStep(1, 'purpose', 'dev')">🛠 서비스 개발</div>
@@ -596,6 +596,7 @@
                                     경험은 있지만, 실무에 활용해본 경험은 적은 단계)</div>
                                 <div class="option-item" onclick="nextStep(2, 'level', 'advanced')">💻 실무<br>(AI를 활용하고
                                     있으며 고급 활용 방법이 필요한 단계)</div>
+                                <div class="option-item" id="web-page-option" style="display:none;" onclick="processResult('vibe', 2)">🌐 웹 페이지를 만들어보고 싶어요</div>
                             </div>
                             <button class="back-btn" onclick="prevStep(2)">이전 질문으로</button>
                         </div>
@@ -853,6 +854,7 @@
 
         // 11개 핵심 코스 데이터 적용 완료
         const courseData = {
+            VIBE: { title: "[무료] 바이브 코딩 입문 with Windsurf(Devin)", url: "https://class.modulabs.co.kr/classes/140", thumb: "https://resources-public-prd.modulabs.co.kr/class/images/c3a06b19-9ae9-4fcb-91e2-52a31e3d8385.jpg" },
             L1: { title: "[첫걸음] 일상부터 업무까지: ChatGPT와 친해지기", url: "https://service.modulabs.co.kr/r/7s9B0gEZ", thumb: "https://resources-public-prd.modulabs.co.kr/class/images/937f3831-3374-4851-8341-8baf8d515ac3.jpg" },
             L2: { title: "생성형 AI를 활용한 15초 광고(숏폼) 만들기", url: "https://service.modulabs.co.kr/r/4wrHCFzd", thumb: "https://resources-public-prd.modulabs.co.kr/class/images/a1a24780-a952-4d1e-9091-0c9c3d6989b0.png" },
             L3: { title: "[AI 능력자] AI로 시작하는 콘텐츠 크리에이터", url: "https://service.modulabs.co.kr/r/Mhj4TrQb", thumb: "https://resources-public-prd.modulabs.co.kr/class/images/8c329a36-be2d-410c-b2be-f7b433f32387.jpg" },
@@ -868,6 +870,10 @@
 
         function nextStep(currentStep, key, value) {
             answers[key] = value;
+            if (currentStep === 1) {
+                const webOption = document.getElementById('web-page-option');
+                if (webOption) webOption.style.display = value === 'content' ? 'block' : 'none';
+            }
             document.querySelector(`[data-step="${currentStep}"]`).classList.remove('active');
             const next = document.querySelector(`[data-step="${currentStep + 1}"]`);
             if (next) {
@@ -885,9 +891,9 @@
             }
         }
 
-        function processResult(goal) {
+        function processResult(goal, currentStep = 3) {
             answers.goal = goal;
-            document.querySelector(`[data-step="3"]`).classList.remove('active');
+            document.querySelector(`[data-step="${currentStep}"]`).classList.remove('active');
             document.getElementById('progress-container').style.display = 'none';
             document.getElementById('loading-page').style.display = 'block';
 
@@ -957,8 +963,8 @@
         }
 
         function showResultCard() {
-            const recommendCode = getCourse1(answers.purpose, answers.level);
-            const nextCode = getCourse2(recommendCode, answers.goal);
+            const recommendCode = answers.goal === 'vibe' ? 'VIBE' : getCourse1(answers.purpose, answers.level);
+            const nextCode = answers.goal === 'vibe' ? '' : getCourse2(recommendCode, answers.goal);
 
             const resultCourse = courseData[recommendCode];
             const nextCourse = courseData[nextCode];
